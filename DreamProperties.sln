@@ -7,7 +7,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DreamProperties.Android", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DreamProperties.iOS", "DreamProperties\DreamProperties.iOS\DreamProperties.iOS.csproj", "{A185BFA3-9805-46DE-B3DF-F7B5EC03CF5D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DreamProperties", "DreamProperties\DreamProperties\DreamProperties.csproj", "{205E7CE0-293C-4A43-AEA5-D2FD036791C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DreamProperties", "DreamProperties\DreamProperties\DreamProperties.csproj", "{205E7CE0-293C-4A43-AEA5-D2FD036791C0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mobile", "Mobile", "{BB2B62D3-704B-4E3C-A21A-4CF9FB00DED2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{E3C9EE03-A5E7-47F2-985A-D1CA8C8FF0B5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{0C0C4053-782D-407C-994B-4C19D4DDA653}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -76,6 +82,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A12A4E21-A0CD-4B0D-940D-E4EA6F0EFCBD} = {BB2B62D3-704B-4E3C-A21A-4CF9FB00DED2}
+		{A185BFA3-9805-46DE-B3DF-F7B5EC03CF5D} = {BB2B62D3-704B-4E3C-A21A-4CF9FB00DED2}
+		{205E7CE0-293C-4A43-AEA5-D2FD036791C0} = {BB2B62D3-704B-4E3C-A21A-4CF9FB00DED2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C24CF2DB-7276-45E5-9185-820018431803}
