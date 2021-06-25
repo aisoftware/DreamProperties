@@ -1,17 +1,10 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DreamProperties.API
 {
@@ -44,27 +37,25 @@ namespace DreamProperties.API
             .AddCookie()
             .AddFacebook(facebook =>
             {
-                //facebook.AppId = Configuration["Authentication:Facebook:AppId"];
-                //facebook.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
-                facebook.AppId = "517650452603306";
-                facebook.AppSecret = "0fda4635bf1428b3bf1c22da6e907d73";
+                facebook.AppId = Configuration["Authentication:Facebook:AppId"];
+                facebook.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
                 facebook.SaveTokens = true;
-            })
-            .AddGoogle(google =>
-            {
-                google.ClientId = Configuration["Authentication:Google:ClientId"];
-                google.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
-                google.SaveTokens = true;
-            })
-            .AddApple(apple =>
-            {
-                apple.ClientId = Configuration["AppleClientId"];
-                apple.KeyId = Configuration["AppleKeyId"];
-                apple.TeamId = Configuration["AppleTeamId"];
-                apple.UsePrivateKey(keyId
-                    => WebHostEnvironment.ContentRootFileProvider.GetFileInfo($"AuthKey_{keyId}.p8"));
-                apple.SaveTokens = true;
             });
+            //.AddGoogle(google =>
+            //{
+            //    google.ClientId = Configuration["Authentication:Google:ClientId"];
+            //    google.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+            //    google.SaveTokens = true;
+            //})
+            //.AddApple(apple =>
+            //{
+            //    apple.ClientId = Configuration["AppleClientId"];
+            //    apple.KeyId = Configuration["AppleKeyId"];
+            //    apple.TeamId = Configuration["AppleTeamId"];
+            //    apple.UsePrivateKey(keyId
+            //        => WebHostEnvironment.ContentRootFileProvider.GetFileInfo($"AuthKey_{keyId}.p8"));
+            //    apple.SaveTokens = true;
+            //});
             /*
             * For Apple signin
             * If you are running the app on Azure you must add the Configuration setting

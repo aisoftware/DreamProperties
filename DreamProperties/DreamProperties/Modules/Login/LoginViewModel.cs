@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DreamProperties.Common.Base;
+using DreamProperties.Common.Navigation;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,12 +10,18 @@ using Xamarin.Essentials;
 
 namespace DreamProperties.Modules.Login
 {
-    public class LoginViewModel
+    public class LoginViewModel: BaseViewModel
     {
-        private const string AUTHENTICATION_URL = "https://https://dreamproperties.azurewebsites.net/auth/";
+        private const string AUTHENTICATION_URL = "https://dreamproperties.azurewebsites.net/api/auth/";
+
+        private readonly INavigationService _navigationService;
+
+        public LoginViewModel(INavigationService navigationService)
+        {
+            _navigationService = navigationService;
+        }
 
         public AsyncCommand FacebookAuthCommand { get => new AsyncCommand(FacebookAuthenticate); }
-
         public AsyncCommand GoogleAuthCommand { get => new AsyncCommand(GoogleAuthenticate); }
         public AsyncCommand AppleAuthCommand { get => new AsyncCommand(AppleAuthenticate); }
 
@@ -41,15 +49,20 @@ namespace DreamProperties.Modules.Login
 
                 var result = await WebAuthenticator.AuthenticateAsync(authUrl, callbackUrl);
 
-                string authToken = result.AccessToken;
-                string refreshToken = result.RefreshToken;
-                var jwtTokenExpiresIn = result.Properties["jwt_token_expires"];
+                var isResultOk = result != null;
 
-                var userInfo = new Dictionary<string, string>
-                {
-                    { "token", authToken },
-                    { "name", $"{result.Properties["firstName"]} {result.Properties["secondName"]}"},
-                };
+                //string authToken = result.AccessToken;
+                //string refreshToken = result.RefreshToken;
+                //var jwtTokenExpiresIn = result.Properties["jwt_token_expires"];
+
+                //var userInfo = new Dictionary<string, string>
+                //{
+                //    { "token", authToken },
+                //    { "name", $"{result.Properties["firstName"]} {result.Properties["secondName"]}"},
+                //};
+
+                //TODO navigate to home view
+                _navigationService.GoToMainFlow();
             }
             catch (TaskCanceledException)
             {

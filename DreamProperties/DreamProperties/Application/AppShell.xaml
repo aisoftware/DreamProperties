@@ -1,6 +1,46 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<Shell xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="DreamProperties.AppShell">
-    
+<Shell  xmlns="http://xamarin.com/schemas/2014/forms"
+        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+        xmlns:home="clr-namespace:DreamProperties.Modules.Home"
+        xmlns:property="clr-namespace:DreamProperties.Modules.AddProperty"
+        xmlns:favorites="clr-namespace:DreamProperties.Modules.Favorites"
+        x:Class="DreamProperties.AppShell">
+    <Shell.Resources>
+        <Style x:Key="BaseStyle" TargetType="Element">
+            <Setter Property="Shell.BackgroundColor" Value="{StaticResource Background}"/>
+            <Setter Property="Shell.ForegroundColor" Value="{StaticResource PrimaryBlue}"/>
+            <Setter Property="Shell.UnselectedColor" Value="{StaticResource Gray}"/>
+            <Setter Property="Shell.TitleColor" Value="{StaticResource PrimaryBlue}"/>
+            <Setter Property="Shell.TabBarBackgroundColor" Value="{StaticResource PrimaryBlue}"/>
+            <Setter Property="Shell.TabBarForegroundColor" Value="{StaticResource Background}"/>
+            <Setter Property="Shell.TabBarUnselectedColor" Value="{StaticResource Gray}"/>
+            <Setter Property="Shell.TabBarTitleColor" Value="{StaticResource Background}"/>
+        </Style>
+    </Shell.Resources>
+
+    <TabBar Title="Home" FlyoutDisplayOptions="AsMultipleItems" >
+    <Tab Route="HomeViewModel"
+         FlyoutDisplayOptions="AsMultipleItems"
+         Title="Home">
+        <ShellContent ContentTemplate="{DataTemplate home:HomeView}"
+                      Style="{StaticResource BaseStyle}"
+                       />
+    </Tab>
+
+    <Tab Route="AddPropertyModel"
+         FlyoutDisplayOptions="AsMultipleItems"
+         Title="New Property">
+        <ShellContent ContentTemplate="{DataTemplate property:AddPropertyView}"
+                      Style="{StaticResource BaseStyle}"
+                      />
+    </Tab>
+
+    <Tab Route="FavoritesViewModel"
+         FlyoutDisplayOptions="AsMultipleItems"
+         Title="Favorites">
+        <ShellContent ContentTemplate="{DataTemplate favorites:FavoritesView}"
+                      Style="{StaticResource BaseStyle}"
+                       />
+    </Tab>
+    </TabBar>
 </Shell>
