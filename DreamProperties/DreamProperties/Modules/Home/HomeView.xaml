@@ -135,6 +135,34 @@
                    Padding="10,0,0,0"
                    Margin="0,-5,0,0"
                    />
+            <CollectionView ItemsSource="{Binding PopularProperties}"
+                            SelectionMode="Single"
+                            HeightRequest="200">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid RowDefinitions="Auto, Auto"
+                              ColumnDefinitions="Auto, Auto, Auto"
+                              Padding="10,0,10,5">
+                            <Image Grid.RowSpan="2"
+                                   Grid.Column="0"
+                                   Source="commercialproperty.png"
+                                   HeightRequest="80"
+                                   WidthRequest="80">
+                                <Image.Clip>
+                                    <RoundRectangleGeometry
+                                        CornerRadius="10"
+                                        Rect="0,0,80,80"
+                                        />
+                                </Image.Clip>
+                            </Image>
+                                   
+                            <Label Grid.Row="0"
+                                   Grid.Column="1"
+                                   Text="{Binding City}" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

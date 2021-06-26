@@ -13,5 +13,11 @@ namespace DreamProperties.Modules.Home
             InitializeComponent();
             BindingContext = App.Container.Resolve<HomeViewModel>();
         }
+
+        protected override async void OnAppearing()
+        {
+            await (BindingContext as HomeViewModel).InitializeAsync(null);
+            base.OnAppearing();
+        }
     }
 }
