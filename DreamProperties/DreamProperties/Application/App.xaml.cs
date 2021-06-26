@@ -29,7 +29,7 @@ namespace DreamProperties
             //get container
             Container = builder.Build();
 
-            MainPage = Container.Resolve<LoginView>();
+            MainPage = new LoginView(); //Container.Resolve<LoginView>();
         }
     }
 }

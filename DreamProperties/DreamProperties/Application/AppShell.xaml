@@ -2,8 +2,8 @@
 <Shell  xmlns="http://xamarin.com/schemas/2014/forms"
         xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
         xmlns:home="clr-namespace:DreamProperties.Modules.Home"
-        xmlns:property="clr-namespace:DreamProperties.Modules.AddProperty"
         xmlns:favorites="clr-namespace:DreamProperties.Modules.Favorites"
+        xmlns:settings="clr-namespace:DreamProperties.Modules.Settings"
         x:Class="DreamProperties.AppShell">
     <Shell.Resources>
         <Style x:Key="BaseStyle" TargetType="Element">
@@ -21,26 +21,29 @@
     <TabBar Title="Home" FlyoutDisplayOptions="AsMultipleItems" >
     <Tab Route="HomeViewModel"
          FlyoutDisplayOptions="AsMultipleItems"
-         Title="Home">
+         Title="Home"
+         Icon="home.png">
         <ShellContent ContentTemplate="{DataTemplate home:HomeView}"
                       Style="{StaticResource BaseStyle}"
                        />
     </Tab>
 
-    <Tab Route="AddPropertyModel"
-         FlyoutDisplayOptions="AsMultipleItems"
-         Title="New Property">
-        <ShellContent ContentTemplate="{DataTemplate property:AddPropertyView}"
-                      Style="{StaticResource BaseStyle}"
-                      />
-    </Tab>
-
     <Tab Route="FavoritesViewModel"
          FlyoutDisplayOptions="AsMultipleItems"
-         Title="Favorites">
+         Title="Favorites"
+         Icon="favorites.png">
         <ShellContent ContentTemplate="{DataTemplate favorites:FavoritesView}"
                       Style="{StaticResource BaseStyle}"
                        />
+    </Tab>
+
+    <Tab Route="SettingsViewModel"
+        FlyoutDisplayOptions="AsMultipleItems"
+        Title="Settings"
+        Icon="settings.png">
+        <ShellContent ContentTemplate="{DataTemplate settings:SettingsView}"
+                    Style="{StaticResource BaseStyle}"
+                    />
     </Tab>
     </TabBar>
 </Shell>

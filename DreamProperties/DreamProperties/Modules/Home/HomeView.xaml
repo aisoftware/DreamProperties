@@ -1,9 +1,30 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Shell.NavBarIsVisible="False"
              x:Class="DreamProperties.Modules.Home.HomeView">
     <ContentPage.Content>
         <StackLayout>
+            <Grid HeightRequest="280">
+                <Image Source="livingroom.png"
+                        Aspect="Fill" />
+                <StackLayout Orientation="Vertical"
+                             Padding="30,30,0,0">
+                    <Label Text="Explore Properties Now!"
+                           TextColor="White"
+                           FontSize="18"
+                           FontFamily="AppRegular"/>
+                    <Button Text="Post Property"
+                            BackgroundColor="#F10013"
+                            TextColor="White"
+                            CornerRadius="7"
+                            WidthRequest="140"
+                            HeightRequest="40"
+                            HorizontalOptions="Start"
+                            Margin="0,20,0,0"
+                            />
+                </StackLayout>
+            </Grid>
             <Label Text="Home"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
