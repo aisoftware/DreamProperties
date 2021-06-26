@@ -1,13 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:cc="clr-namespace:DreamProperties.Common.CustomControls"
              Shell.NavBarIsVisible="False"
              x:Class="DreamProperties.Modules.Home.HomeView">
     <ContentPage.Content>
-        <StackLayout>
-            <Grid HeightRequest="280">
+        <StackLayout Spacing="0">
+            <Grid HeightRequest="240">
                 <Image Source="livingroom.png"
-                        Aspect="Fill" />
+                        Aspect="AspectFill" />
                 <StackLayout Orientation="Vertical"
                              Padding="30,30,0,0">
                     <Label Text="Explore Properties Now!"
@@ -21,13 +22,104 @@
                             WidthRequest="140"
                             HeightRequest="40"
                             HorizontalOptions="Start"
-                            Margin="0,20,0,0"
+                            Margin="0,10,0,0"
+                            Command="{Binding AddPropertyCommand}"
                             />
                 </StackLayout>
+
             </Grid>
-            <Label Text="Home"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            <cc:ShadowFrame HeightRequest="40"
+                       WidthRequest="200"
+                       CornerRadius="10"
+                       Padding="10"
+                       Margin="20,-30,20,0"
+                       HasShadow="True">
+                <Entry Placeholder="Search By City" />
+            </cc:ShadowFrame>
+            <Grid ColumnDefinitions="*,*,*" Padding="10,25,10,0">
+                <StackLayout 
+                    Grid.Column="0"
+                    Orientation="Vertical"
+                    Padding="0" >
+                <Image  Source="buyproperty.png">
+                    <Image.Clip>
+                        <RoundRectangleGeometry
+                            CornerRadius="10"
+                            Rect="5,0,100,100"
+                            />
+                    </Image.Clip>
+                </Image>
+                    <Label Text="Buy"
+                       FontSize="14"
+                       FontFamily="AppMedium"
+                       HorizontalTextAlignment="Center"
+                       TextColor="Black"
+                       Margin="-5,0,0,0"
+                           />
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SearchCommand}" CommandParameter="Buy" />
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
+                <StackLayout 
+                    Grid.Column="1"
+                    Orientation="Vertical"
+                    Padding="0" >
+                    <Image Source="rentproperty.png">
+                        <Image.Clip>
+                            <RoundRectangleGeometry
+                            CornerRadius="10"
+                            Rect="5,0,100,100"
+                            />
+                        </Image.Clip>
+                    </Image>
+                    <Label Text="Rent"
+                       FontSize="14"
+                       FontFamily="AppMedium"
+                       HorizontalTextAlignment="Center"
+                       TextColor="Black"
+                       Margin="-5,0,0,0"
+                           />
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SearchCommand}" CommandParameter="Rent" />
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
+                <StackLayout 
+                    Grid.Column="2"
+                    Orientation="Vertical"
+                    Padding="0" >
+                    <Image  Source="commercialproperty.png" >
+                        <Image.Clip>
+                            <RoundRectangleGeometry
+                            CornerRadius="10"
+                            Rect="5,0,100,100"
+                            />
+                        </Image.Clip>
+                    </Image>
+                    <Label Text="Commercial"
+                       FontSize="14"
+                       FontFamily="AppMedium"
+                       HorizontalTextAlignment="Center"
+                       TextColor="Black" 
+                       Margin="-5,0,0,0"
+                           />
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SearchCommand}" CommandParameter="Commercial" />
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
+            </Grid>
+            <Label Text="Popular Localities"
+                   FontFamily="AppMedium"
+                   Padding="10,10,0,0"
+                   FontSize="18"
+                   TextColor="Black"
+                   />
+            <Label Text="The most explored localities by our users"
+                   FontFamily="AppRegular"
+                   FontSize="14"
+                   TextColor="#AAAAAA"
+                   Padding="10,0,0,0"
+                   Margin="0,-5,0,0"
+                   />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
