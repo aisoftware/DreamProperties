@@ -68,6 +68,7 @@
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ShadowFrameRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\buyproperty.png.imageset\buyproperty.png">
@@ -231,7 +232,7 @@
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
     <ProjectReference Include="..\DreamProperties\DreamProperties.csproj">
-      <Project>{062CA565-ED7A-4F9F-B31C-24A299E0627F}</Project>
+      <Project>{205E7CE0-293C-4A43-AEA5-D2FD036791C0}</Project>
       <Name>DreamProperties</Name>
     </ProjectReference>
   </ItemGroup>

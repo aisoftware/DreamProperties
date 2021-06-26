@@ -9,8 +9,13 @@
             <Grid HeightRequest="240">
                 <Image Source="livingroom.png"
                         Aspect="AspectFill" />
-                <StackLayout Orientation="Vertical"
-                             Padding="30,30,0,0">
+                <StackLayout Orientation="Vertical">
+                    <StackLayout.Padding>
+                        <OnPlatform x:TypeArguments="Thickness" >
+                            <On Platform="iOS" Value="30,50,0,0" />
+                            <On Platform="Android" Value="30,30,0,0" />
+                        </OnPlatform>
+                    </StackLayout.Padding>
                     <Label Text="Explore Properties Now!"
                            TextColor="White"
                            FontSize="18"
