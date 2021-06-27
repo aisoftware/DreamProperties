@@ -8,6 +8,7 @@
             <Color x:Key="Gray">#AAAAAA</Color>
             <Color x:Key="Green">#69BB1D</Color>
             <Color x:Key="Red">#F10013</Color>
+            <Color x:Key="DarkGray">#1a1a1a</Color>
 
             <Color x:Key="Background">#FFFFFF</Color>
         </ResourceDictionary>

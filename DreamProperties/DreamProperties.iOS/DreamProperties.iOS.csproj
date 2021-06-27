@@ -120,6 +120,9 @@
     <ImageAsset Include="Assets.xcassets\home.png.imageset\home@3x1.png">
       <Visible>false</Visible>
     </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\livingroom.png.imageset\livingroom1.png">
+      <Visible>false</Visible>
+    </ImageAsset>
     <ImageAsset Include="Assets.xcassets\search_dark.png.imageset\Contents.json">
       <Visible>false</Visible>
     </ImageAsset>
@@ -136,9 +139,6 @@
       <Visible>false</Visible>
     </ImageAsset>
     <ImageAsset Include="Assets.xcassets\search.png.imageset\Contents.json">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\livingroom.png.imageset\livingroom.png">
       <Visible>false</Visible>
     </ImageAsset>
     <ImageAsset Include="Assets.xcassets\rentproperty.png.imageset\Contents.json">
