@@ -5,7 +5,8 @@
              Shell.NavBarIsVisible="False"
              x:Class="DreamProperties.Modules.Home.HomeView">
     <ContentPage.Content>
-        <StackLayout Spacing="0">
+        <Grid RowDefinitions="250,200,*">
+            <StackLayout Grid.Row="0" Spacing="0" >
             <Grid HeightRequest="240">
                 <Image Source="livingroom.png"
                         Aspect="AspectFill" />
@@ -33,7 +34,7 @@
                 </StackLayout>
 
             </Grid>
-            <cc:ShadowFrame HeightRequest="40"
+       <cc:ShadowFrame HeightRequest="50"
                        WidthRequest="200"
                        CornerRadius="10"
                        Padding="10,10,10,5"
@@ -51,91 +52,94 @@
                         />
                 </Grid>
             </cc:ShadowFrame>
-            <Grid ColumnDefinitions="*,*,*" Padding="10,25,10,0">
-                <StackLayout 
+            </StackLayout>
+            <StackLayout Grid.Row="1" Spacing="0">
+                <Grid ColumnDefinitions="*,*,*" Padding="10,20,10,0">
+                    <StackLayout 
                     Grid.Column="0"
                     Orientation="Vertical"
                     Padding="0" >
-                <Image  Source="buyproperty.png">
-                    <Image.Clip>
-                        <RoundRectangleGeometry
+                        <Image  Source="buyproperty.png">
+                            <Image.Clip>
+                                <RoundRectangleGeometry
                             CornerRadius="10"
                             Rect="5,0,100,100"
                             />
-                    </Image.Clip>
-                </Image>
-                    <Label Text="Buy"
+                            </Image.Clip>
+                        </Image>
+                        <Label Text="Buy"
                        FontSize="14"
                        FontFamily="AppMedium"
                        HorizontalTextAlignment="Center"
                        TextColor="Black"
                        Margin="-5,0,0,0"
                            />
-                    <StackLayout.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding SearchCommand}" CommandParameter="Buy" />
-                    </StackLayout.GestureRecognizers>
-                </StackLayout>
-                <StackLayout 
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SearchCommand}" CommandParameter="Buy" />
+                        </StackLayout.GestureRecognizers>
+                    </StackLayout>
+                    <StackLayout 
                     Grid.Column="1"
                     Orientation="Vertical"
                     Padding="0" >
-                    <Image Source="rentproperty.png">
-                        <Image.Clip>
-                            <RoundRectangleGeometry
+                        <Image Source="rentproperty.png">
+                            <Image.Clip>
+                                <RoundRectangleGeometry
                             CornerRadius="10"
                             Rect="5,0,100,100"
                             />
-                        </Image.Clip>
-                    </Image>
-                    <Label Text="Rent"
+                            </Image.Clip>
+                        </Image>
+                        <Label Text="Rent"
                        FontSize="14"
                        FontFamily="AppMedium"
                        HorizontalTextAlignment="Center"
                        TextColor="Black"
                        Margin="-5,0,0,0"
                            />
-                    <StackLayout.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding SearchCommand}" CommandParameter="Rent" />
-                    </StackLayout.GestureRecognizers>
-                </StackLayout>
-                <StackLayout 
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SearchCommand}" CommandParameter="Rent" />
+                        </StackLayout.GestureRecognizers>
+                    </StackLayout>
+                    <StackLayout 
                     Grid.Column="2"
                     Orientation="Vertical"
                     Padding="0" >
-                    <Image  Source="commercialproperty.png" >
-                        <Image.Clip>
-                            <RoundRectangleGeometry
+                        <Image  Source="commercialproperty.png" >
+                            <Image.Clip>
+                                <RoundRectangleGeometry
                             CornerRadius="10"
                             Rect="5,0,100,100"
                             />
-                        </Image.Clip>
-                    </Image>
-                    <Label Text="Commercial"
+                            </Image.Clip>
+                        </Image>
+                        <Label Text="Commercial"
                        FontSize="14"
                        FontFamily="AppMedium"
                        HorizontalTextAlignment="Center"
                        TextColor="Black" 
                        Margin="-5,0,0,0"
                            />
-                    <StackLayout.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding SearchCommand}" CommandParameter="Commercial" />
-                    </StackLayout.GestureRecognizers>
-                </StackLayout>
-            </Grid>
-            <Label Text="Popular Localities"
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SearchCommand}" CommandParameter="Commercial" />
+                        </StackLayout.GestureRecognizers>
+                    </StackLayout>
+                </Grid>
+                <Label Text="Popular Localities"
                    FontFamily="AppMedium"
                    Padding="10,10,0,0"
                    FontSize="18"
                    TextColor="Black"
                    />
-            <Label Text="The most explored localities by our users"
+                <Label Text="The most explored localities by our users"
                    FontFamily="AppRegular"
                    FontSize="14"
                    TextColor="#AAAAAA"
                    Padding="10,0,0,0"
                    Margin="0,-5,0,0"
                    />
-            <CollectionView ItemsSource="{Binding PopularProperties}"
+            </StackLayout>
+            <CollectionView Grid.Row="2" ItemsSource="{Binding PopularProperties}"
                             SelectionMode="Single"
                             HeightRequest="200">
                 <CollectionView.ItemTemplate>
@@ -199,6 +203,6 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-        </StackLayout>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>
