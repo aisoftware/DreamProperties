@@ -7,14 +7,14 @@ namespace DreamProperties.Common.Controllers
 {
     public interface IPropertyController
     {
-        Task<IEnumerable<Property>> GetFavoriteProperties();
+        Task<IEnumerable<Property>> GetPopularProperties();
     }
 
     public class FakePropertyController : IPropertyController
     {
-        public Task<IEnumerable<Property>> GetFavoriteProperties()
+        public Task<IEnumerable<Property>> GetPopularProperties()
         {
-            var favorites = new List<Property>
+            var popular = new List<Property>
             {
                 new Property("New York", 3, 1800,PropertyType.Flat, 88, false),
                 new Property("Los Angeles", 2, 1600,PropertyType.Flat, 54, false),
@@ -23,7 +23,7 @@ namespace DreamProperties.Common.Controllers
                 new Property("New York", 3, 80000,PropertyType.House, 1),
             };
 
-            return Task.FromResult(favorites.AsEnumerable());
+            return Task.FromResult(popular.AsEnumerable());
         }
     }
 }

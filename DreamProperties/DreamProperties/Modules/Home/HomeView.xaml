@@ -5,7 +5,7 @@
              Shell.NavBarIsVisible="False"
              x:Class="DreamProperties.Modules.Home.HomeView">
     <ContentPage.Content>
-        <Grid RowDefinitions="250,200,*">
+        <Grid RowDefinitions="250,200,*" BackgroundColor="{AppThemeBinding Dark=Black, Light=White}">
             <StackLayout Grid.Row="0" Spacing="0" >
             <Grid HeightRequest="240">
                 <Image Source="livingroom.png"
@@ -18,12 +18,12 @@
                         </OnPlatform>
                     </StackLayout.Padding>
                     <Label Text="Explore Properties Now!"
-                           TextColor="White"
+                           TextColor="{AppThemeBinding Dark=Black, Light=White}"
                            FontSize="18"
                            FontFamily="AppRegular"/>
                     <Button Text="Post Property"
                             BackgroundColor="#F10013"
-                            TextColor="White"
+                            TextColor="{AppThemeBinding Dark=Black, Light=White}"
                             CornerRadius="7"
                             WidthRequest="140"
                             HeightRequest="40"
@@ -39,12 +39,17 @@
                        CornerRadius="10"
                        Padding="10,10,10,5"
                        Margin="20,-30,20,0"
+                       BackgroundColor="{AppThemeBinding Dark=#1a1a1a, Light=White}"
                        HasShadow="True">
                 <Grid ColumnDefinitions="*, Auto" Padding="0" >
-                    <cc:SimpleEntry Grid.Column="0" Placeholder="Search By City" />
-                    <Image 
+                    <cc:SimpleEntry Grid.Column="0"
+                                    Placeholder="Search By City"
+                                    PlaceholderColor="{AppThemeBinding Dark=White, Light=Black}"
+                                    />
+                    <ImageButton 
                         Grid.Column="1"
-                        Source="search.png"
+                        BackgroundColor="Transparent"
+                        Source="{AppThemeBinding Dark=search_dark.png, Light=search.png}"
                         HeightRequest="22"
                         WidthRequest="22"
                         Aspect="AspectFit"
@@ -129,7 +134,7 @@
                    FontFamily="AppMedium"
                    Padding="10,10,0,0"
                    FontSize="18"
-                   TextColor="Black"
+                   TextColor="{AppThemeBinding Dark=White, Light=Black}"
                    />
                 <Label Text="The most explored localities by our users"
                    FontFamily="AppRegular"
@@ -165,7 +170,7 @@
                                    Text="{Binding City}"
                                    FontSize="15"
                                    FontFamily="AppRegular"
-                                   TextColor="Black"
+                                   TextColor="{AppThemeBinding Dark=White, Light=Black}"
                                    Padding="0,5,0,0"
                                    />
                             <Label Grid.Row="1"

@@ -20,7 +20,7 @@ namespace DreamProperties.Modules.Home
 
         public override async Task InitializeAsync(object parameter)
         {
-            var favorites = await _propertyController.GetFavoriteProperties();
+            var favorites = await _propertyController.GetPopularProperties();
             PopularProperties = new ObservableCollection<Property>(favorites);
         }
 

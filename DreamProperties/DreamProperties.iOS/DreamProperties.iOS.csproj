@@ -120,6 +120,18 @@
     <ImageAsset Include="Assets.xcassets\home.png.imageset\home@3x1.png">
       <Visible>false</Visible>
     </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\search_dark.png.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\search_dark.png.imageset\search-dark.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\search_dark.png.imageset\search-dark@2x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\search_dark.png.imageset\search-dark@3x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
     <ImageAsset Include="Assets.xcassets\star.png.imageset\Contents.json">
       <Visible>false</Visible>
     </ImageAsset>
