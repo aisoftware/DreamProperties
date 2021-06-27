@@ -13,5 +13,11 @@ namespace DreamProperties.Modules.Favorites
             InitializeComponent();
             BindingContext = App.Container.Resolve<FavoritesViewModel>();
         }
+
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+            await (BindingContext as FavoritesViewModel).InitializeAsync(null);
+        }
     }
 }

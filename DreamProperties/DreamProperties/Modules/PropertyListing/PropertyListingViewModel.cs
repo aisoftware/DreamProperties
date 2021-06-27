@@ -4,16 +4,16 @@ using DreamProperties.Common.Models;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
-namespace DreamProperties.Modules.Favorites
+namespace DreamProperties.Modules.PropertyListing
 {
-    public class FavoritesViewModel: BaseViewModel
+    public class PropertyListingViewModel : BaseViewModel
     {
 
         private IPropertyController _propertyController;
 
         private ObservableCollection<Property> _properties;
 
-        public FavoritesViewModel(IPropertyController propertyController)
+        public PropertyListingViewModel(IPropertyController propertyController)
         {
             _propertyController = propertyController;
             _properties = new ObservableCollection<Property>();
@@ -25,8 +25,8 @@ namespace DreamProperties.Modules.Favorites
             Properties = new ObservableCollection<Property>(favorites);
         }
 
-        public ObservableCollection<Property> Properties
-        {
+        public ObservableCollection<Property> Properties 
+        { 
             get => _properties;
             set
             {

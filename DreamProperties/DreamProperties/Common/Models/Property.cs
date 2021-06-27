@@ -9,7 +9,15 @@
 
     public class Property
     {
-        public Property(string city, int numberOfBedrooms, int price, PropertyType propertyType, int numberOfLikes, bool forSale = true)
+        public Property(string title,
+                        string address,
+                        string city,
+                        int price,
+                        float squateFoots,
+                        int numberOfBedrooms,
+                        PropertyType propertyType,
+                        string imageUrl,
+                        int numberOfLikes, bool forSale = true)
         {
             City = city;
             NumberOfBedrooms = numberOfBedrooms;
@@ -17,6 +25,10 @@
             PropertyType = propertyType;
             ForSale = forSale;
             NumberOfLikes = numberOfLikes;
+            Title = title;
+            SquareMeters = squateFoots;
+            Address = address;
+            ImageUrl = imageUrl;
         }
 
         public string City { get; set; }
@@ -24,9 +36,11 @@
         public int Price { get; set; }
         public PropertyType PropertyType { get; set; }
         public bool ForSale { get; set; }
-
         public int NumberOfLikes { get; set; }
-
+        public string ImageUrl { get; set; }
+        public string Title { get; set; }
+        public float SquareMeters { get; set; }
+        public string Address { get; set; }
         public string ListingDescription
         {
             get => $"{NumberOfBedrooms} BHK for ${Price}" + (ForSale ? "" : " / Month");

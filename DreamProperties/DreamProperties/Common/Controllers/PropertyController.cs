@@ -16,11 +16,11 @@ namespace DreamProperties.Common.Controllers
         {
             var popular = new List<Property>
             {
-                new Property("New York", 3, 1800,PropertyType.Flat, 88, false),
-                new Property("Los Angeles", 2, 1600,PropertyType.Flat, 54, false),
-                new Property("New York", 2, 50000,PropertyType.House, 33),
-                                new Property("Los Angeles", 3, 2000,PropertyType.Flat, 4, false),
-                new Property("New York", 3, 80000,PropertyType.House, 1),
+                new Property("3 Bedroom Independent House", "132, West street, New York, United States", "New York", 40500, 1800, 3,PropertyType.House, "propertyWide.png", 88),
+                new Property("2 Bedroom Flat", "132, West street, New York, United States", "Los Angeles", 1800, 50, 2,PropertyType.Flat, "propertyWide.png", 75, false),
+                new Property("3 Bedroom Flat", "132, West street, New York, United States", "New York", 2200, 60, 3,PropertyType.Flat, "propertyWide.png", 66, false),
+                new Property("3 Bedroom Independent House", "132, West street, New York, United States", "New York", 40500, 1800, 3,PropertyType.House, "propertyWide.png", 14),
+                new Property("3 Bedroom Independent House", "132, West street, New York, United States", "New York", 40500, 1800, 3,PropertyType.House, "propertyWide.png", 2),
             };
 
             return Task.FromResult(popular.AsEnumerable());
