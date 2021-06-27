@@ -141,8 +141,8 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Grid RowDefinitions="Auto, Auto"
-                              ColumnDefinitions="Auto, Auto, Auto"
-                              Padding="10,0,10,5">
+                              ColumnDefinitions="Auto, *, Auto"
+                              Padding="10,10,10,5">
                             <Image Grid.RowSpan="2"
                                    Grid.Column="0"
                                    Source="commercialproperty.png"
@@ -151,14 +151,50 @@
                                 <Image.Clip>
                                     <RoundRectangleGeometry
                                         CornerRadius="10"
-                                        Rect="0,0,80,80"
+                                        Rect="0,5,70,70"
                                         />
                                 </Image.Clip>
                             </Image>
                                    
                             <Label Grid.Row="0"
                                    Grid.Column="1"
-                                   Text="{Binding City}" />
+                                   Text="{Binding City}"
+                                   FontSize="15"
+                                   FontFamily="AppRegular"
+                                   TextColor="Black"
+                                   Padding="0,5,0,0"
+                                   />
+                            <Label Grid.Row="1"
+                                   Grid.Column="1"
+                                   Text="{Binding ListingDescription}"
+                                   FontSize="13"
+                                   FontFamily="AppRegular"
+                                   TextColor="#AAAAAA"
+                                   Padding="0"
+                                   />
+                            <Frame Grid.Row="0" Grid.Column="2"
+                                   BackgroundColor="{StaticResource Green}"
+                                   HorizontalOptions="End"
+                                   VerticalOptions="Start"
+                                   HeightRequest="20"
+                                   WidthRequest="40"
+                                   Padding="10,0,10,0"
+                                   Margin="0,5,0,0"
+                                   >
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Text="{Binding NumberOfLikes}"
+                                           FontSize="11"
+                                           FontFamily="AppRegular"
+                                           Padding="3,2,0,0"
+                                           TextColor="White" />
+                                    <Image Source="star.png"
+                                           WidthRequest="12"
+                                           HeightRequest="12"
+                                           Aspect="AspectFit"
+                                           HorizontalOptions="EndAndExpand"
+                                           />
+                                </StackLayout>
+                            </Frame>
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
