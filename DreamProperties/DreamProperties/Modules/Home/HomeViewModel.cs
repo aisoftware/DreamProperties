@@ -1,6 +1,8 @@
 ﻿using DreamProperties.Common.Base;
 using DreamProperties.Common.Controllers;
 using DreamProperties.Common.Models;
+using DreamProperties.Common.Navigation;
+using DreamProperties.Modules.AddProperty;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
@@ -11,10 +13,13 @@ namespace DreamProperties.Modules.Home
     public class HomeViewModel: BaseViewModel
     {
         private readonly IPropertyController _propertyController;
+        private readonly INavigationService _navigationService;
 
-        public HomeViewModel(IPropertyController propertyController)
+        public HomeViewModel(IPropertyController propertyController,
+                             INavigationService navigationService)
         {
             _propertyController = propertyController;
+            _navigationService = navigationService;
             _popularProperties = new ObservableCollection<Property>();
         }
 
@@ -35,9 +40,9 @@ namespace DreamProperties.Modules.Home
             set => SetProperty(ref _popularProperties, value);
         }
 
-        private Task AddProperty()
+        private async Task AddProperty()
         {
-            return Task.CompletedTask;
+            await _navigationService.PushAsync<AddPropertyViewModel>();
         }
 
         private Task PerformSearch(string propertyType)

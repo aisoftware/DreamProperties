@@ -7,10 +7,13 @@
         x:Class="DreamProperties.AppShell">
     <Shell.Resources>
         <Style x:Key="BaseStyle" TargetType="Element">
-            <Setter Property="Shell.BackgroundColor" Value="{StaticResource Background}"/>
-            <Setter Property="Shell.ForegroundColor" Value="{StaticResource PrimaryBlue}"/>
+            <Setter Property="Shell.BackgroundColor"
+                    Value="{AppThemeBinding Light={StaticResource Background}, Dark={StaticResource DarkGray}}"/>
+            <Setter Property="Shell.ForegroundColor"
+                    Value="{AppThemeBinding Light={StaticResource PrimaryBlue}, Dark={StaticResource DarkPrimaryText}}"/>
             <Setter Property="Shell.UnselectedColor" Value="{StaticResource Gray}"/>
-            <Setter Property="Shell.TitleColor" Value="{StaticResource PrimaryBlue}"/>
+            <Setter Property="Shell.TitleColor"
+                    Value="{AppThemeBinding Light={StaticResource PrimaryBlue}, Dark={StaticResource DarkPrimaryText}}"/>
             <Setter Property="Shell.TabBarBackgroundColor"
                     Value="{AppThemeBinding Light={StaticResource PrimaryBlue}, Dark={StaticResource DarkGray}}"/>
             <Setter Property="Shell.TabBarForegroundColor" Value="{StaticResource Background}"/>

@@ -10,7 +10,15 @@
             <Color x:Key="Red">#F10013</Color>
             <Color x:Key="DarkGray">#1a1a1a</Color>
             <Color x:Key="BluePrice">#4467A0</Color>
+            <!-- Light Theme -->
             <Color x:Key="Background">#FFFFFF</Color>
+            <Color x:Key="PrimaryText">Black</Color>
+            <Color x:Key="SecondaryText">White</Color>
+            <!-- Dark Theme -->
+            <Color x:Key="DarkBackground">Black</Color>
+            <Color x:Key="DarkPrimaryText">White</Color>
+            <Color x:Key="DarkSecondaryText">Black</Color>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>

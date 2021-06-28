@@ -5,7 +5,7 @@
              Shell.NavBarIsVisible="False"
              x:Class="DreamProperties.Modules.Home.HomeView">
     <ContentPage.Content>
-        <Grid RowDefinitions="250,200,*" BackgroundColor="{AppThemeBinding Dark=Black, Light=White}">
+        <Grid RowDefinitions="250,200,*" BackgroundColor="{AppThemeBinding Dark={StaticResource DarkBackground}, Light={StaticResource Background}}">
             <StackLayout Grid.Row="0" Spacing="0" >
             <Grid HeightRequest="240">
                 <Image Source="livingroom.png"
@@ -18,12 +18,12 @@
                         </OnPlatform>
                     </StackLayout.Padding>
                     <Label Text="Explore Properties Now!"
-                           TextColor="{AppThemeBinding Dark=Black, Light=White}"
+                           TextColor="{AppThemeBinding Dark={StaticResource DarkSecondaryText}, Light={StaticResource SecondaryText}}"
                            FontSize="18"
                            FontFamily="AppRegular"/>
                     <Button Text="Post Property"
-                            BackgroundColor="#F10013"
-                            TextColor="{AppThemeBinding Dark=Black, Light=White}"
+                            BackgroundColor="{StaticResource Red}"
+                            TextColor="{AppThemeBinding Dark={StaticResource DarkSecondaryText}, Light={StaticResource SecondaryText}}"
                             CornerRadius="7"
                             WidthRequest="140"
                             HeightRequest="40"
@@ -39,12 +39,12 @@
                        CornerRadius="10"
                        Padding="10,10,10,5"
                        Margin="20,-30,20,0"
-                       BackgroundColor="{AppThemeBinding Dark=#1a1a1a, Light=White}"
+                       BackgroundColor="{AppThemeBinding Dark={StaticResource DarkGray}, Light={StaticResource Background}}"
                        HasShadow="True">
                 <Grid ColumnDefinitions="*, Auto" Padding="0" >
                     <cc:SimpleEntry Grid.Column="0"
                                     Placeholder="Search By City"
-                                    PlaceholderColor="{AppThemeBinding Dark=White, Light=Black}"
+                                    PlaceholderColor="{AppThemeBinding Dark={StaticResource DarkPrimaryText}, Light={StaticResource PrimaryText}}"
                                     />
                     <ImageButton 
                         Grid.Column="1"
@@ -76,7 +76,7 @@
                        FontSize="14"
                        FontFamily="AppMedium"
                        HorizontalTextAlignment="Center"
-                       TextColor="{AppThemeBinding Dark=White, Light=Black}"
+                       TextColor="{AppThemeBinding Dark={StaticResource DarkPrimaryText}, Light={StaticResource PrimaryText}}"
                        Margin="-5,0,0,0"
                            />
                         <StackLayout.GestureRecognizers>
@@ -99,7 +99,7 @@
                        FontSize="14"
                        FontFamily="AppMedium"
                        HorizontalTextAlignment="Center"
-                       TextColor="{AppThemeBinding Dark=White, Light=Black}"
+                       TextColor="{AppThemeBinding Dark={StaticResource DarkPrimaryText}, Light={StaticResource PrimaryText}}"
                        Margin="-5,0,0,0"
                            />
                         <StackLayout.GestureRecognizers>
@@ -122,7 +122,7 @@
                        FontSize="14"
                        FontFamily="AppMedium"
                        HorizontalTextAlignment="Center"
-                       TextColor="{AppThemeBinding Dark=White, Light=Black}" 
+                       TextColor="{AppThemeBinding Dark={StaticResource DarkPrimaryText}, Light={StaticResource PrimaryText}}" 
                        Margin="-5,0,0,0"
                            />
                         <StackLayout.GestureRecognizers>
@@ -134,7 +134,7 @@
                    FontFamily="AppMedium"
                    Padding="10,10,0,0"
                    FontSize="18"
-                   TextColor="{AppThemeBinding Dark=White, Light=Black}"
+                   TextColor="{AppThemeBinding Dark={StaticResource DarkPrimaryText}, Light={StaticResource PrimaryText}}"
                    />
                 <Label Text="The most explored localities by our users"
                    FontFamily="AppRegular"
@@ -170,7 +170,7 @@
                                    Text="{Binding City}"
                                    FontSize="15"
                                    FontFamily="AppRegular"
-                                   TextColor="{AppThemeBinding Dark=White, Light=Black}"
+                                   TextColor="{AppThemeBinding Dark={StaticResource DarkPrimaryText}, Light={StaticResource PrimaryText}}"
                                    Padding="0,5,0,0"
                                    />
                             <Label Grid.Row="1"

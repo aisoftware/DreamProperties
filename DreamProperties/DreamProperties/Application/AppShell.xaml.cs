@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DreamProperties.Modules.AddProperty;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -15,6 +11,8 @@ namespace DreamProperties
         public AppShell()
         {
             InitializeComponent();
+
+            Routing.RegisterRoute("AddPropertyViewModel", typeof(AddPropertyView));
         }
     }
 }

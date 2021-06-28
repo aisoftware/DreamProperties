@@ -1,12 +1,132 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="Add Property"
+             Shell.TabBarIsVisible="False"
              x:Class="DreamProperties.Modules.AddProperty.AddPropertyView">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Add property"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        <StackLayout Spacing="5"
+                     Padding="15,10,10,10"
+                     Orientation="Vertical"
+                     VerticalOptions="Start"
+                     HorizontalOptions="StartAndExpand">
+            <Label Text="Location"
+                   FontSize="18"
+                   FontFamily="AppMedium"
+                   TextColor="{AppThemeBinding Dark={StaticResource DarkPrimaryText}, Light={StaticResource PrimaryText}}"
+                   />
+            <Entry Placeholder="Enter Your Location"
+                   PlaceholderColor="{AppThemeBinding Dark={StaticResource DarkPrimaryText}, Light={StaticResource PrimaryText}}"
+                   FontFamily="AppRegular"
+                   FontSize="15"
+                   Text="{Binding Address, Mode=TwoWay}"
+                   />
+            <StackLayout Orientation="Horizontal"
+                         HorizontalOptions="StartAndExpand">
+                <StackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding GetLocationCommand}" />
+                </StackLayout.GestureRecognizers>
+                <Image Source="location.png"
+                       Aspect="AspectFit"
+                       WidthRequest="20"
+                       HeightRequest="20"
+                       />
+                <Label Text="Search near me" 
+                       FontFamily="AppRegular"
+                       TextColor="{StaticResource PrimaryBlue}"
+                       FontSize="15"
+                       Padding="5,2,0,0"
+                       />
+            </StackLayout>
+            <Label Text="Property Type"
+                   FontSize="18"
+                   FontFamily="AppMedium"
+                   TextColor="{AppThemeBinding Dark={StaticResource DarkPrimaryText}, Light={StaticResource PrimaryText}}"
+                   />
+            <Grid ColumnDefinitions="*,*,*"
+                  Padding="0"
+                  Margin="0,5,0,0">
+                <ImageButton Grid.Column="0"
+                             Source="villa.png"
+                             BackgroundColor="#F2F4F5"
+                             WidthRequest="90"
+                             HeightRequest="90"
+                             Aspect="AspectFit"
+                             BorderColor="{StaticResource PrimaryBlue}"
+                             BorderWidth="1"
+                             CornerRadius="10"
+                             Margin="5"
+                             Command="{Binding TypeCommand}"
+                             CommandParameter="House/Villa"
+                             />
+
+                <ImageButton Grid.Column="1"
+                             Source="apartment.png"
+                             BackgroundColor="#F2F4F5"
+                             WidthRequest="90"
+                             HeightRequest="90"
+                             Aspect="AspectFit"
+                             BorderColor="{StaticResource PrimaryBlue}"
+                             BorderWidth="1"
+                             CornerRadius="10"
+                             Padding="0,10,0,15"
+                             Margin="5"
+                             Command="{Binding TypeCommand}"
+                             CommandParameter="Flat"
+                             />
+
+                <ImageButton Grid.Column="2"
+                             Source="shop.png"
+                             BackgroundColor="#F2F4F5"
+                             WidthRequest="90"
+                             HeightRequest="90"
+                             Aspect="AspectFit"
+                             BorderColor="{StaticResource PrimaryBlue}"
+                             BorderWidth="1"
+                             CornerRadius="10"
+                             Padding="0,10,0,15"
+                             Margin="5"
+                             Command="{Binding TypeCommand}"
+                             CommandParameter="Commercial"
+                             />
+
+            </Grid>
+            <Label Text="{Binding TypeSelection}"
+                   TextColor="{StaticResource Gray}"
+                   />
+            <Label Text="Price"
+                   FontSize="18"
+                   FontFamily="AppMedium"
+                   TextColor="{AppThemeBinding Dark={StaticResource DarkPrimaryText}, Light={StaticResource PrimaryText}}"
+                   />
+            <Slider Value="{Binding Price}"
+                    Maximum="500000"
+                    Minimum="1000"
+                    ThumbColor="{StaticResource PrimaryBlue}"
+                    MinimumTrackColor="{StaticResource Gray}"
+                    MaximumTrackColor="{StaticResource Gray}"
+                    HeightRequest="40"
+                    />
+            <Label Text="{Binding Price, StringFormat='${0}'}"
+                   TextColor="{StaticResource Gray}"
+                   />
+            <Label Text="Amenities"
+                   FontSize="18"
+                   FontFamily="AppMedium"
+                   TextColor="{AppThemeBinding Dark={StaticResource DarkPrimaryText}, Light={StaticResource PrimaryText}}"
+                   />
+
+            <Label Text="Bedrooms"
+                   FontSize="18"
+                   FontFamily="AppMedium"
+                   TextColor="{AppThemeBinding Dark={StaticResource DarkPrimaryText}, Light={StaticResource PrimaryText}}"
+                   />
+
+            <Label Text="Description"
+                   FontSize="18"
+                   FontFamily="AppMedium"
+                   TextColor="{AppThemeBinding Dark={StaticResource DarkPrimaryText}, Light={StaticResource PrimaryText}}"
+                   />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
