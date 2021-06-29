@@ -19,11 +19,13 @@ namespace DreamProperties.Modules.AddProperty
 
         public Command<string> TypeCommand { get => new Command<string>(SelectType); }
 
+        public Command<string> AmenityCommand { get => new Command<string>(SelectAmenity); }
+
         public AsyncCommand GetLocationCommand { get => new AsyncCommand(GetLocation); }
 
         private string _address;
-        public string Address 
-        { 
+        public string Address
+        {
             get => _address;
             set => SetProperty(ref _address, value);
         }
@@ -34,8 +36,22 @@ namespace DreamProperties.Modules.AddProperty
             get => _price;
             set
             {
-               int newValue = (int)(value + 50) / 100 * 100;
+                int newValue = (int)(value + 50) / 100 * 100;
                 SetProperty(ref _price, (double)newValue);
+            }
+        }
+
+        private string _selectedAmenities;
+        public string SelectedAmenities { get => _selectedAmenities; set => SetProperty(ref _selectedAmenities, value); }
+
+        private string _typeSelection;
+        public string TypeSelection
+        {
+            get => _typeSelection;
+            set
+            {
+                string newValue = $"Currently selected: {value}";
+                SetProperty(ref _typeSelection, newValue);
             }
         }
 
@@ -82,15 +98,9 @@ namespace DreamProperties.Modules.AddProperty
             TypeSelection = _propertyType;
         }
 
-        private string _typeSelection;
-        public string TypeSelection
+        private void SelectAmenity(string selected)
         {
-            get => _typeSelection;
-            set
-            {
-                string newValue = $"Currently selected: {value}";
-                SetProperty(ref _typeSelection, newValue);
-            }
+            throw new NotImplementedException();
         }
     }
 }
