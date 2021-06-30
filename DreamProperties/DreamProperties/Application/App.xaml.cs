@@ -24,12 +24,11 @@ namespace DreamProperties
             builder.RegisterAssemblyTypes(dataAccess)
                    .AsImplementedInterfaces()
                    .AsSelf();
-            //builder.RegisterType<Repository<User>>().As<IRepository<User>>();
 
             //get container
             Container = builder.Build();
 
-            MainPage = new AppShell();
+            MainPage = new LoginView();
         }
     }
 }

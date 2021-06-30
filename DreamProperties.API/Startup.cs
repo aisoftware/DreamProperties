@@ -40,13 +40,13 @@ namespace DreamProperties.API
                 facebook.AppId = Configuration["Authentication:Facebook:AppId"];
                 facebook.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
                 facebook.SaveTokens = true;
+            })
+            .AddGoogle(google =>
+            {
+                google.ClientId = Configuration["Authentication:Google:ClientId"];
+                google.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+                google.SaveTokens = true;
             });
-            //.AddGoogle(google =>
-            //{
-            //    google.ClientId = Configuration["Authentication:Google:ClientId"];
-            //    google.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
-            //    google.SaveTokens = true;
-            //})
             //.AddApple(apple =>
             //{
             //    apple.ClientId = Configuration["AppleClientId"];
@@ -72,9 +72,10 @@ namespace DreamProperties.API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "DreamProperties.API v1"));
             }
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "DreamProperties.API v1"));
 
             app.UseHttpsRedirection();
 

@@ -68,7 +68,6 @@ namespace DreamProperties.API.Controllers
                 //    "&",
                 //    qs.Where(kvp => !string.IsNullOrEmpty(kvp.Value) && kvp.Value != "-1")
                 //    .Select(kvp => $"{WebUtility.UrlEncode(kvp.Key)}={WebUtility.UrlEncode(kvp.Value)}"));
-
                 //// Redirect to final url
                 Request.HttpContext.Response.Redirect(MOBILEAPP_SCHEME + "://");
             }
