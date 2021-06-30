@@ -24,8 +24,6 @@
 	<string>8.0</string>
 	<key>CFBundleDisplayName</key>
 	<string>DreamProperties</string>
-	<key>CFBundleIdentifier</key>
-	<string>com.companyname.DreamProperties</string>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
 	<key>UILaunchStoryboardName</key>
@@ -47,5 +45,7 @@
 			<string>Editor</string>
 		</dict>
 	</array>
+	<key>CFBundleIdentifier</key>
+	<string>com.kristijankralj.dreamproperties</string>
 </dict>
 </plist>

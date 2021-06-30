@@ -47,23 +47,6 @@ namespace DreamProperties.API
                 google.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
                 google.SaveTokens = true;
             });
-            //.AddApple(apple =>
-            //{
-            //    apple.ClientId = Configuration["AppleClientId"];
-            //    apple.KeyId = Configuration["AppleKeyId"];
-            //    apple.TeamId = Configuration["AppleTeamId"];
-            //    apple.UsePrivateKey(keyId
-            //        => WebHostEnvironment.ContentRootFileProvider.GetFileInfo($"AuthKey_{keyId}.p8"));
-            //    apple.SaveTokens = true;
-            //});
-            /*
-            * For Apple signin
-            * If you are running the app on Azure you must add the Configuration setting
-            * WEBSITE_LOAD_USER_PROFILE = 1
-            * Without this setting you will get a 
-            * File Not Found exception when AppleAuthenticationHandler tries 
-            * to generate a certificate using your Auth_{keyId].P8 file.
-            */
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

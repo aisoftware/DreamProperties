@@ -65,7 +65,14 @@
                             BackgroundColor="{AppThemeBinding Dark={StaticResource DarkBackground}, Light={StaticResource Background}}"
                             BorderColor="#4B4B4A"
                             Command="{Binding AppleAuthCommand}"
-                            />
+                            >
+                        <Button.IsVisible>
+                            <OnPlatform x:TypeArguments="x:Boolean">
+                                <On Platform="iOS" Value="True" />
+                                <On Platform="Android" Value="False" />
+                            </OnPlatform>
+                        </Button.IsVisible>
+                    </Button>
                 </StackLayout>
             </Grid>
         </Grid>

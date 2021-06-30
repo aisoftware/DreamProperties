@@ -35,9 +35,10 @@ namespace DreamProperties.Modules.Login
             return PerformAuthentication("Google");
         }
 
-        private Task AppleAuthenticate()
+        private async Task AppleAuthenticate()
         {
-            return PerformAuthentication("Apple");
+            // Use Native Apple Sign In API's
+            WebAuthenticatorResult r = await AppleSignInAuthenticator.AuthenticateAsync();
         }
 
         private async Task PerformAuthentication(string scheme)
