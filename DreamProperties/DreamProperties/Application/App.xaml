@@ -19,6 +19,18 @@
             <Color x:Key="DarkPrimaryText">White</Color>
             <Color x:Key="DarkSecondaryText">Black</Color>
 
+            <Style x:Key="TitleLabel" TargetType="Label">
+                <Setter Property="FontSize" Value="18" />
+                <Setter Property="FontFamily" Value="AppMedium" />
+                <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource DarkPrimaryText}, Light={StaticResource PrimaryText}}" />
+            </Style>
+
+            <Style x:Key="LoginButton" TargetType="Button">
+                <Setter Property="FontFamily" Value="AppRegular" />
+                <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource DarkPrimaryText}, Light={StaticResource PrimaryText}}" />
+                <Setter Property="CornerRadius" Value="10" />
+                <Setter Property="BorderWidth" Value="2" />
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

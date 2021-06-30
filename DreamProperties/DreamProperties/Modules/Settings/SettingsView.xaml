@@ -1,12 +1,32 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="Settings"
              x:Class="DreamProperties.Modules.Settings.SettingsView">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Settings view"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        <StackLayout  BackgroundColor="{AppThemeBinding Light={StaticResource Background}, Dark={StaticResource DarkBackground}}"
+                      Padding="10">
+            <Label Text="Current user"
+                VerticalOptions="Start" 
+                HorizontalOptions="Start"
+                   Style="{StaticResource TitleLabel}"
+                   />
+            <Label Text="Kristijan Kralj"
+                   VerticalOptions="Start" 
+                   HorizontalOptions="Start"
+                   FontFamily="AppRegular"
+                   FontSize="15"
+                   TextColor="{AppThemeBinding Dark={StaticResource DarkPrimaryText}, Light={StaticResource PrimaryText}}"
+                   />
+            <Button Text="Logout"
+                        BackgroundColor="{StaticResource PrimaryBlue}"
+                        HeightRequest="50"
+                        Margin="0,15,0,0"
+                        FontSize="18"
+                        FontFamily="AppRegular"
+                        CornerRadius="7"
+                        Command="{Binding LogoutCommand}"
+                        />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
