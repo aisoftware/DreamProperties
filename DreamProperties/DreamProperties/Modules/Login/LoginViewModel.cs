@@ -38,7 +38,14 @@ namespace DreamProperties.Modules.Login
         private async Task AppleAuthenticate()
         {
             // Use Native Apple Sign In API's
-            WebAuthenticatorResult r = await AppleSignInAuthenticator.AuthenticateAsync();
+            WebAuthenticatorResult r = await AppleSignInAuthenticator.AuthenticateAsync(
+                new AppleSignInAuthenticator.Options()
+                {
+                    IncludeEmailScope = true,
+                    IncludeFullNameScope = true,
+                });
+            //TODO navigate to home view
+            _navigationService.GoToMainFlow();
         }
 
         private async Task PerformAuthentication(string scheme)

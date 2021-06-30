@@ -48,12 +48,14 @@
                            />
                     <Button Text="Google"
                             Style="{StaticResource LoginButton}"
+                            TextColor="{AppThemeBinding Dark={StaticResource DarkSecondaryText}, Light={StaticResource SecondaryText}}"
                             BackgroundColor="#B44247"
                             BorderColor="#FC4848"
                             Command="{Binding GoogleAuthCommand}"/>
 
                     <Button Text="Facebook"
                             Style="{StaticResource LoginButton}"
+                            TextColor="{AppThemeBinding Light={StaticResource SecondaryText}, Dark={StaticResource DarkSecondaryText} }"
                             FontFamily="AppRegular"
                             BackgroundColor="#325785"
                             BorderColor="#3372C1"
