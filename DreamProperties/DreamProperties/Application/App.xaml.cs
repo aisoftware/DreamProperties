@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using DreamProperties.Modules.Home;
 using DreamProperties.Modules.Login;
 using System;
 using System.Reflection;
@@ -28,7 +29,7 @@ namespace DreamProperties
             //get container
             Container = builder.Build();
 
-            MainPage = new LoginView();
+            MainPage = new AppShell();
         }
     }
 }
