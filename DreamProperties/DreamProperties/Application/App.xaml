@@ -28,8 +28,7 @@
             <Style x:Key="LoginButton" TargetType="Button">
                 <Setter Property="FontFamily" Value="AppRegular" />
                 <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource DarkPrimaryText}, Light={StaticResource PrimaryText}}" />
-                <Setter Property="CornerRadius" Value="10" />
-                <Setter Property="BorderWidth" Value="2" />
+                <Setter Property="CornerRadius" Value="5" />
             </Style>
         </ResourceDictionary>
     </Application.Resources>

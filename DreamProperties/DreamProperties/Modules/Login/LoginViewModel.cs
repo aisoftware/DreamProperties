@@ -42,7 +42,7 @@ namespace DreamProperties.Modules.Login
         private async Task AppleAuthenticate()
         {
             //simpler way
-            /*
+            
             // Use Native Apple Sign In API's
             var options = new AppleSignInAuthenticator.Options
             {
@@ -57,8 +57,8 @@ namespace DreamProperties.Modules.Login
             if (authResult.Properties.TryGetValue("email", out var email) && !string.IsNullOrEmpty(email))
                 AuthToken += $"Email: {email}{Environment.NewLine}";
             AuthToken += authResult?.AccessToken ?? authResult?.IdToken;
-            */
             
+            /*
             //based on https://www.xamboy.com/2020/01/13/sign-in-with-apple-in-xamarin-forms/
             var account = await appleSignInService.SignInAsync();
             if (account != null)
@@ -68,7 +68,7 @@ namespace DreamProperties.Modules.Login
                 System.Diagnostics.Debug.WriteLine($"Signed in!\n  Name: {account?.Name ?? string.Empty}\n  Email: {account?.Email ?? string.Empty}\n  UserId: {account?.UserId ?? string.Empty}");
                // OnSignIn?.Invoke(this, default(EventArgs));
             }
-            
+            */
             _navigationService.GoToMainFlow();
         }
 
