@@ -1,14 +1,9 @@
-﻿using DreamProperties.Common.Base;
-using DreamProperties.Common.Navigation;
-using DreamProperties.Common.Services;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 using System.Threading.Tasks;
-using System.Web;
+using DreamProperties.Common.Base;
+using DreamProperties.Common.Navigation;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
-using Xamarin.Forms;
 
 namespace DreamProperties.Modules.Login
 {
@@ -17,12 +12,10 @@ namespace DreamProperties.Modules.Login
         private const string AUTHENTICATION_URL = "https://dreamproperties.azurewebsites.net/api/auth/";
 
         private readonly INavigationService _navigationService;
-        private readonly IAppleSignInService appleSignInService;
 
         public LoginViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
-            appleSignInService = DependencyService.Get<IAppleSignInService>();
         }
 
         public AsyncCommand FacebookAuthCommand { get => new AsyncCommand(FacebookAuthenticate); }
@@ -58,17 +51,6 @@ namespace DreamProperties.Modules.Login
                 AuthToken += $"Email: {email}{Environment.NewLine}";
             AuthToken += authResult?.AccessToken ?? authResult?.IdToken;
             
-            /*
-            //based on https://www.xamboy.com/2020/01/13/sign-in-with-apple-in-xamarin-forms/
-            var account = await appleSignInService.SignInAsync();
-            if (account != null)
-            {
-                //Preferences.Set(App.LoggedInKey, true);
-                //await SecureStorage.SetAsync(App.AppleUserIdKey, account.UserId);
-                System.Diagnostics.Debug.WriteLine($"Signed in!\n  Name: {account?.Name ?? string.Empty}\n  Email: {account?.Email ?? string.Empty}\n  UserId: {account?.UserId ?? string.Empty}");
-               // OnSignIn?.Invoke(this, default(EventArgs));
-            }
-            */
             _navigationService.GoToMainFlow();
         }
 
