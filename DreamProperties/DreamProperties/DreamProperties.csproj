@@ -13,6 +13,7 @@
   <ItemGroup>
     <None Remove="Common\Fonts\Poppins-Medium.ttf" />
     <None Remove="Common\Fonts\Poppins-Regular.ttf" />
+    <None Remove="Common\Services\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -50,5 +51,8 @@
     <EmbeddedResource Update="Modules\Settings\SettingsView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Common\Services\" />
   </ItemGroup>
 </Project>

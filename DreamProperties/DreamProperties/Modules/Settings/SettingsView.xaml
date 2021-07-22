@@ -19,13 +19,14 @@
                    TextColor="{AppThemeBinding Dark={StaticResource DarkPrimaryText}, Light={StaticResource PrimaryText}}"
                    />
             <Button Text="Logout"
-                        BackgroundColor="{StaticResource PrimaryBlue}"
-                        HeightRequest="50"
-                        Margin="0,15,0,0"
-                        FontSize="18"
-                        FontFamily="AppRegular"
-                        CornerRadius="7"
-                        Command="{Binding LogoutCommand}"
+                    TextColor="{StaticResource SecondaryText}"
+                    BackgroundColor="{StaticResource PrimaryBlue}"
+                    HeightRequest="50"
+                    Margin="0,15,0,0"
+                    FontSize="18"
+                    FontFamily="AppRegular"
+                    CornerRadius="7"
+                    Command="{Binding LogoutCommand}"
                         />
         </StackLayout>
     </ContentPage.Content>
