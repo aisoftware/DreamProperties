@@ -1,6 +1,7 @@
 using DreamProperties.API.Configuration;
 using DreamProperties.API.Database;
 using DreamProperties.API.Models;
+using DreamProperties.API.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -11,8 +12,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace DreamProperties.API
@@ -34,7 +38,7 @@ namespace DreamProperties.API
         {
             services.AddDbContext<DatabaseContext>(options => 
             {
-                options.UseSqlServer(Configuration.GetConnectionString("sqlconnection"));
+                options.UseSqlServer(Configuration.GetConnectionString("SqlConnection"));
             });
 
             services.AddSwaggerGen(c =>
@@ -48,7 +52,7 @@ namespace DreamProperties.API
             })
             .AddEntityFrameworkStores<DatabaseContext>();
 
-            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); // => remove default claims
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); // remove default claims
 
             services.AddAuthentication(options =>
             {
@@ -62,6 +66,19 @@ namespace DreamProperties.API
                 {
                     context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                     return Task.CompletedTask;
+                };
+            })
+            .AddJwtBearer(cfg =>
+            {
+                cfg.SaveToken = true;
+                cfg.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidIssuer = Configuration["Jwt:Issuer"],
+                    ValidAudience = Configuration["Jwt:Issuer"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"])),
+                    ClockSkew = TimeSpan.Zero,
+                    ValidateIssuer = true,
+                    ValidateLifetime = true
                 };
             })
             .AddFacebook(facebook =>
@@ -78,6 +95,8 @@ namespace DreamProperties.API
             });
 
             services.AddAutoMapper(typeof(MapperInitializer));
+
+            services.AddScoped<IAuthService, AuthService>();
 
             services.AddControllers();
         }
