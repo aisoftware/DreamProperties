@@ -1,9 +1,10 @@
 ﻿using DreamProperties.API.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace DreamProperties.API.Database
 {
-    public class DatabaseContext: DbContext
+    public class DatabaseContext: IdentityDbContext<AppUser>
     {
         public DatabaseContext(DbContextOptions options): base(options)
         {

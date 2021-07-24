@@ -1,11 +1,14 @@
-﻿using DreamProperties.API.Models;
+﻿using AutoMapper;
+using DreamProperties.API.Models;
+using DreamProperties.Common.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -17,12 +20,64 @@ namespace DreamProperties.API.Controllers
     {
         private const string MOBILEAPP_SCHEME = "xamdream";
 
+        private readonly UserManager<AppUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
+        private readonly IConfiguration _configuration;
+        private readonly ILogger<AuthController> _logger;
+        private readonly IMapper _mapper;
+
+        public AuthController(UserManager<AppUser> userManager,
+                              SignInManager<AppUser> signInManager,
+                              IConfiguration configuration,
+                              ILogger<AuthController> logger,
+                              IMapper mapper)
+        {
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _configuration = configuration;
+            _logger = logger;
+            _mapper = mapper;
+        }
+
+        [HttpPost]
+        [Route("register")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Register([FromBody] UserDTO UserDto)
+        {
+            _logger.LogInformation($"Registration attempt for {UserDto.Email}");
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                var user = _mapper.Map<AppUser>(UserDto);
+                user.UserName = user.Email;
+                var result = await _userManager.CreateAsync(user);
+
+                if (!result.Succeeded)
+                {
+                    return BadRequest("Error while creating a new user");
+                }
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Something went wrong in the {nameof(Register)}");
+                return StatusCode(500, "Internal server error. Please try again later.");
+            }
+        }
+
         [HttpGet("{scheme}")]
         public async Task SocialLogin([FromRoute] string scheme)
         {
             //NOTE: see https://docs.microsoft.com/en-us/xamarin/essentials/web-authenticator?tabs=android
             var auth = await Request.HttpContext.AuthenticateAsync(scheme);
 
+            //Move to auth service
             if (!auth.Succeeded
                 || auth?.Principal == null
                 || !auth.Principal.Identities.Any(id => id.IsAuthenticated)
@@ -33,6 +88,7 @@ namespace DreamProperties.API.Controllers
             }
             else
             {
+                //move to auth service
                 var claims = auth.Principal.Identities.FirstOrDefault()?.Claims;
 
                 var email = string.Empty;
@@ -72,19 +128,19 @@ namespace DreamProperties.API.Controllers
             }
         }
 
+        //move to auth service
         private async Task CreateOrGetUser(AppUser appUser)
         {
-            //var user = await _userManager.FindByEmailAsync(appUser.Email);
+            var user = await _userManager.FindByEmailAsync(appUser.Email);
 
-            //if (user == null)
-            //{
-            //    //Create a username unique
-            //    appUser.UserName = CreateUniqueUserName($"{appUser.FirstName} {appUser.SecondName}");
-            //    var result = await _userManager.CreateAsync(appUser);
-            //    user = appUser;
-            //}
+            if (user == null)
+            {
+                appUser.UserName = appUser.Email;
+                await _userManager.CreateAsync(appUser);
+                user = appUser;
+            }
 
-            //await _signInManager.SignInAsync(user, true);
+            await _signInManager.SignInAsync(user, true);
         }
 
         //private (string token, double expirySeconds) GenerateJwtToken(AppUser user)

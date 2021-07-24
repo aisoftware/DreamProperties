@@ -1,13 +1,19 @@
 using DreamProperties.API.Configuration;
 using DreamProperties.API.Database;
+using DreamProperties.API.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using System.IdentityModel.Tokens.Jwt;
+using System.Threading.Tasks;
 
 namespace DreamProperties.API
 {
@@ -36,11 +42,28 @@ namespace DreamProperties.API
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DreamProperties.API", Version = "v1" });
             });
 
-            services.AddAuthentication(o =>
+            services.AddIdentity<AppUser, IdentityRole>(options =>
             {
-                o.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.User.RequireUniqueEmail = true;
             })
-            .AddCookie()
+            .AddEntityFrameworkStores<DatabaseContext>();
+
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); // => remove default claims
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddCookie(options =>
+            {
+                options.Events.OnRedirectToLogin = options.Events.OnRedirectToAccessDenied = context =>
+                {
+                    context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                    return Task.CompletedTask;
+                };
+            })
             .AddFacebook(facebook =>
             {
                 facebook.AppId = Configuration["Authentication:Facebook:AppId"];
