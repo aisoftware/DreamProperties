@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using DreamProperties.API.Models;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net;
 using System.Security.Claims;
@@ -38,18 +38,17 @@ namespace DreamProperties.API.Controllers
                 var email = string.Empty;
                 email = claims?.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
                 var givenName = claims?.FirstOrDefault(c => c.Type == ClaimTypes.GivenName)?.Value;
-                var surName = claims?.FirstOrDefault(c => c.Type == ClaimTypes.Surname)?.Value;
+                var lastName = claims?.FirstOrDefault(c => c.Type == ClaimTypes.Surname)?.Value;
                 var nameIdentifier = claims?.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
-                //var appUser = new AppUser
-                //{
-                //    Email = email,
-                //    FirstName = givenName,
-                //    SecondName = surName,
-                //    PictureURL = picture
-                //};
+                var appUser = new AppUser
+                {
+                    Email = email,
+                    FirstName = givenName,
+                    LastName = lastName,
+                };
 
-                //await CreateOrGetUser(appUser);
+                await CreateOrGetUser(appUser);
                 //var authToken = GenerateJwtToken(appUser);
 
                 // Get parameters to send back to the callback
@@ -71,6 +70,21 @@ namespace DreamProperties.API.Controllers
                 //// Redirect to final url
                 Request.HttpContext.Response.Redirect(MOBILEAPP_SCHEME + "://");
             }
+        }
+
+        private async Task CreateOrGetUser(AppUser appUser)
+        {
+            //var user = await _userManager.FindByEmailAsync(appUser.Email);
+
+            //if (user == null)
+            //{
+            //    //Create a username unique
+            //    appUser.UserName = CreateUniqueUserName($"{appUser.FirstName} {appUser.SecondName}");
+            //    var result = await _userManager.CreateAsync(appUser);
+            //    user = appUser;
+            //}
+
+            //await _signInManager.SignInAsync(user, true);
         }
 
         //private (string token, double expirySeconds) GenerateJwtToken(AppUser user)

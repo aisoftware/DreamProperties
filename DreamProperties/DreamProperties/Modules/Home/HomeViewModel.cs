@@ -20,21 +20,21 @@ namespace DreamProperties.Modules.Home
         {
             _propertyController = propertyController;
             _navigationService = navigationService;
-            _popularProperties = new ObservableCollection<Property>();
+            _popularProperties = new ObservableCollection<PropertyDTO>();
         }
 
         public override async Task InitializeAsync(object parameter)
         {
             var favorites = await _propertyController.GetPopularProperties();
-            PopularProperties = new ObservableCollection<Property>(favorites);
+            PopularProperties = new ObservableCollection<PropertyDTO>(favorites);
         }
 
         public AsyncCommand<string> SearchCommand { get => new AsyncCommand<string>(PerformSearch); }
 
         public AsyncCommand AddPropertyCommand { get => new AsyncCommand(AddProperty); }
 
-        private ObservableCollection<Property> _popularProperties;
-        public ObservableCollection<Property> PopularProperties 
+        private ObservableCollection<PropertyDTO> _popularProperties;
+        public ObservableCollection<PropertyDTO> PopularProperties 
         {
             get => _popularProperties;
             set => SetProperty(ref _popularProperties, value);

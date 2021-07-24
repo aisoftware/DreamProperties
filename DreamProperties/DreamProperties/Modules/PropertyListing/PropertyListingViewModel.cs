@@ -11,21 +11,21 @@ namespace DreamProperties.Modules.PropertyListing
 
         private IPropertyController _propertyController;
 
-        private ObservableCollection<Property> _properties;
+        private ObservableCollection<PropertyDTO> _properties;
 
         public PropertyListingViewModel(IPropertyController propertyController)
         {
             _propertyController = propertyController;
-            _properties = new ObservableCollection<Property>();
+            _properties = new ObservableCollection<PropertyDTO>();
         }
 
         public override async Task InitializeAsync(object parameter)
         {
             var favorites = await _propertyController.GetPopularProperties();
-            Properties = new ObservableCollection<Property>(favorites);
+            Properties = new ObservableCollection<PropertyDTO>(favorites);
         }
 
-        public ObservableCollection<Property> Properties 
+        public ObservableCollection<PropertyDTO> Properties 
         { 
             get => _properties;
             set
