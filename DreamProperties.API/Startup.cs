@@ -1,3 +1,4 @@
+using DreamProperties.API.Configuration;
 using DreamProperties.API.Database;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -52,6 +53,8 @@ namespace DreamProperties.API
                 google.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
                 google.SaveTokens = true;
             });
+
+            services.AddAutoMapper(typeof(MapperInitializer));
 
             services.AddControllers();
         }
