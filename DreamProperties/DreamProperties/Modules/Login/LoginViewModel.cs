@@ -4,6 +4,7 @@ using DreamProperties.Common.Base;
 using DreamProperties.Common.Navigation;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
+using System.Web;
 
 namespace DreamProperties.Modules.Login
 {
@@ -65,15 +66,15 @@ namespace DreamProperties.Modules.Login
 
                 var isResultOk = result != null;
 
-                //string authToken = result.AccessToken;
-                //string refreshToken = result.RefreshToken;
-                //var jwtTokenExpiresIn = result.Properties["jwt_token_expires"];
+                string authToken = result.AccessToken;
+                string name = $"{result.Properties["firstName"]} {result.Properties["lastName"]}";
+                string email = HttpUtility.UrlDecode(result.Properties["email"]);
 
-                //var userInfo = new Dictionary<string, string>
-                //{
-                //    { "token", authToken },
-                //    { "name", $"{result.Properties["firstName"]} {result.Properties["secondName"]}"},
-                //};
+                await SecureStorage.SetAsync("token", authToken);
+                await SecureStorage.SetAsync("name", name);
+                await SecureStorage.SetAsync("email", email);
+
+                Preferences.Set("logged", true);
 
                 //TODO navigate to home view
                 _navigationService.GoToMainFlow();

@@ -22,7 +22,7 @@ namespace DreamProperties.Modules.PropertyListing
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            await (BindingContext as PropertyListingViewModel).InitializeAsync(null);
+            await (BindingContext as PropertyListingViewModel).InitializeAsync();
         }
     }
 }

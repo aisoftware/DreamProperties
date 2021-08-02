@@ -5,6 +5,8 @@ using System;
 using System.Reflection;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Xamarin.Essentials;
+using DreamProperties.Common.Controllers;
 
 [assembly: ExportFont("Poppins-Regular.ttf", Alias = "AppRegular")]
 [assembly: ExportFont("Poppins-Medium.ttf", Alias = "AppMedium")]
@@ -26,10 +28,19 @@ namespace DreamProperties
                    .AsImplementedInterfaces()
                    .AsSelf();
 
+            builder.RegisterType<PropertyController>().As<IPropertyController>();
+
             //get container
             Container = builder.Build();
 
-            MainPage = new LoginView();
+            if (Preferences.Get("logged", false))
+            {
+                MainPage = new AppShell();
+            }
+            else
+            {
+                MainPage = new LoginView();
+            }
         }
     }
 }

@@ -144,7 +144,11 @@
                    Margin="0,-5,0,0"
                    />
             </StackLayout>
-            <CollectionView Grid.Row="2" ItemsSource="{Binding PopularProperties}"
+            <RefreshView Grid.Row="2"
+                         IsRefreshing="{Binding IsBusy}"
+                         Command="{Binding RefreshCommand}"
+                         >
+            <CollectionView ItemsSource="{Binding PopularProperties}"
                             SelectionMode="Single"
                             >
                 <CollectionView.ItemTemplate>
@@ -154,7 +158,8 @@
                               Padding="10,10,10,5">
                             <Image Grid.RowSpan="2"
                                    Grid.Column="0"
-                                   Source="commercialproperty.png"
+                                   Source="{Binding ImageUrl}"
+                                   Aspect="AspectFill"
                                    HeightRequest="80"
                                    WidthRequest="80">
                                 <Image.Clip>
@@ -209,6 +214,7 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
+            </RefreshView>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

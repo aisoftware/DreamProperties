@@ -2,7 +2,7 @@
 <Shell  xmlns="http://xamarin.com/schemas/2014/forms"
         xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
         xmlns:home="clr-namespace:DreamProperties.Modules.Home"
-        xmlns:favorites="clr-namespace:DreamProperties.Modules.Favorites"
+        xmlns:listing="clr-namespace:DreamProperties.Modules.PropertyListing"
         xmlns:settings="clr-namespace:DreamProperties.Modules.Settings"
         x:Class="DreamProperties.AppShell">
     <Shell.Resources>
@@ -32,11 +32,11 @@
                        />
     </Tab>
 
-    <Tab Route="FavoritesViewModel"
+    <Tab Route="PropertyListingViewModel"
          FlyoutDisplayOptions="AsMultipleItems"
-         Title="Favorites"
+         Title="Properties"
          Icon="favorites.png">
-        <ShellContent ContentTemplate="{DataTemplate favorites:FavoritesView}"
+        <ShellContent ContentTemplate="{DataTemplate listing:PropertyListingView}"
                       Style="{StaticResource BaseStyle}"
                        />
     </Tab>

@@ -1,19 +1,66 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="Properties"
              x:Class="DreamProperties.Modules.PropertyListing.PropertyListingView">
     <ContentPage.Content>
-        <CollectionView ItemsSource="{Binding Properties}">
+        <CollectionView ItemsSource="{Binding Properties}"
+                        BackgroundColor="{AppThemeBinding Dark={StaticResource DarkBackground}, Light={StaticResource Background}}"
+                        >
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <StackLayout Orientation="Vertical">
-                        <Grid>
-                            <Image Source="{Binding ImageUrl}" 
-                               VerticalOptions="StartAndExpand"
-                               HeightRequest="160"
-                               />
+                    <StackLayout Orientation="Vertical" Spacing="0">
+                        <Grid Padding="0" Margin="0">
+                            <StackLayout Spacing="0" >
+                                <Frame HasShadow="False"
+                                   IsClippedToBounds="True"
+                                   CornerRadius="10"
+                                   Margin="20,0,20,0"
+                                   HeightRequest="160"
+                                   VerticalOptions="StartAndExpand"
+                                   Padding="0">
+                                    <Image Source="{Binding ImageUrl}" 
+                                   VerticalOptions="CenterAndExpand"
+                                   HeightRequest="160"
+                                    Margin="0"
+                                    Aspect="AspectFill"
+                                   />
+                                </Frame>
+                            </StackLayout>
                         </Grid>
-                    </StackLayout> 
+                        <Label Text="{Binding Title}"
+                               FontFamily="AppRegular"
+                               FontSize="18"
+                               TextColor="{AppThemeBinding Dark={StaticResource DarkPrimaryText}, Light={StaticResource PrimaryText}}"
+                               Padding="20,5,0,0"
+                               />
+                        <Label Text="{Binding Path=SquareMeters, StringFormat='{0} Square meters'}"
+                               FontFamily="AppRegular"
+                               FontSize="14"
+                               TextColor="{StaticResource Gray}"
+                               Padding="20,0,0,0"
+                               />
+                        <Label Text="{Binding Address}"
+                               FontFamily="AppRegular"
+                               FontSize="15"
+                               TextColor="{AppThemeBinding Dark={StaticResource DarkPrimaryText}, Light={StaticResource PrimaryText}}"
+                               Padding="20,0,0,0"
+                               />
+                        <Grid ColumnDefinitions="*,*" Padding="10,5,20,15" >
+                            <Button Grid.Column="0" Text="Like"
+                                    TextColor="White"
+                                    BackgroundColor="{StaticResource Red}"
+                                    CornerRadius="10"
+                                    Margin="10"
+                                    />
+                            <Button Grid.Column="1" Text="Contact"
+                                    TextColor="White"
+                                    BackgroundColor="{StaticResource Green}"
+                                    CornerRadius="10"
+                                    Margin="10"
+                                    />
+                        </Grid>
+                    </StackLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>

@@ -11,7 +11,14 @@
                 HorizontalOptions="Start"
                    Style="{StaticResource TitleLabel}"
                    />
-            <Label Text="Kristijan Kralj"
+            <Label Text="{Binding Name}"
+                   VerticalOptions="Start" 
+                   HorizontalOptions="Start"
+                   FontFamily="AppRegular"
+                   FontSize="15"
+                   TextColor="{AppThemeBinding Dark={StaticResource DarkPrimaryText}, Light={StaticResource PrimaryText}}"
+                   />
+            <Label Text="{Binding Email}"
                    VerticalOptions="Start" 
                    HorizontalOptions="Start"
                    FontFamily="AppRegular"

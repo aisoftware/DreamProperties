@@ -3,8 +3,9 @@ using DreamProperties.Common.Controllers;
 using DreamProperties.Common.Models;
 using DreamProperties.Common.Navigation;
 using DreamProperties.Modules.AddProperty;
-using System;
+using DreamProperties.Modules.PropertyListing;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.ObjectModel;
 
@@ -23,15 +24,27 @@ namespace DreamProperties.Modules.Home
             _popularProperties = new ObservableCollection<PropertyDTO>();
         }
 
-        public override async Task InitializeAsync(object parameter)
+        public async Task InitializeAsync()
         {
-            var favorites = await _propertyController.GetPopularProperties();
-            PopularProperties = new ObservableCollection<PropertyDTO>(favorites);
+            try
+            {
+                IsBusy = true;
+                var favorites = (await _propertyController.GetAllProperties())
+                    .OrderByDescending(x => x.NumberOfLikes)
+                    .Take(5);
+                PopularProperties = new ObservableCollection<PropertyDTO>(favorites);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         public AsyncCommand<string> SearchCommand { get => new AsyncCommand<string>(PerformSearch); }
 
         public AsyncCommand AddPropertyCommand { get => new AsyncCommand(AddProperty); }
+
+        public AsyncCommand RefreshCommand { get => new AsyncCommand(InitializeAsync, () => IsNotBusy); }
 
         private ObservableCollection<PropertyDTO> _popularProperties;
         public ObservableCollection<PropertyDTO> PopularProperties 
@@ -45,9 +58,9 @@ namespace DreamProperties.Modules.Home
             await _navigationService.PushAsync<AddPropertyViewModel>();
         }
 
-        private Task PerformSearch(string propertyType)
+        private async Task PerformSearch(string propertyType)
         {
-            return Task.CompletedTask;
+            await _navigationService.PushAsync<PropertyListingViewModel,string>(propertyType);
         }
     }
 }

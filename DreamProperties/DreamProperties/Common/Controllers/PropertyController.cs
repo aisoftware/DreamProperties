@@ -1,4 +1,5 @@
 ﻿using DreamProperties.Common.Models;
+using DreamProperties.Common.Network;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,12 +8,37 @@ namespace DreamProperties.Common.Controllers
 {
     public interface IPropertyController
     {
-        Task<IEnumerable<PropertyDTO>> GetPopularProperties();
+        Task<IEnumerable<PropertyDTO>> GetAllProperties();
+        Task<IEnumerable<PropertyDTO>> GetProperties(string city);
+    }
+
+    public class PropertyController : IPropertyController
+    {
+        private INetworkService _networkService;
+
+        public PropertyController(INetworkService networkService)
+        {
+            _networkService = networkService;
+        }
+
+        public async Task<IEnumerable<PropertyDTO>> GetAllProperties()
+        {
+            var properties = await _networkService.GetAsync<List<PropertyDTO>>(Constants.API_URL + "property");
+
+            return properties;
+        }
+
+        public async Task<IEnumerable<PropertyDTO>> GetProperties(string city)
+        {
+            var properties = await _networkService.GetAsync<List<PropertyDTO>>(Constants.API_URL + $"property?city={city}");
+
+            return properties;
+        }
     }
 
     public class FakePropertyController : IPropertyController
     {
-        public Task<IEnumerable<PropertyDTO>> GetPopularProperties()
+        public Task<IEnumerable<PropertyDTO>> GetAllProperties()
         {
             var popular = new List<PropertyDTO>
             {
@@ -89,6 +115,11 @@ namespace DreamProperties.Common.Controllers
             };
 
             return Task.FromResult(popular.AsEnumerable());
+        }
+
+        public Task<IEnumerable<PropertyDTO>> GetProperties(string city)
+        {
+            return GetAllProperties();
         }
     }
 }

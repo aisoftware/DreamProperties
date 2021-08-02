@@ -13,5 +13,11 @@ namespace DreamProperties.Modules.Settings
             InitializeComponent();
             BindingContext = App.Container.Resolve<SettingsViewModel>();
         }
+
+        protected override async void OnAppearing()
+        {
+            await (BindingContext as SettingsViewModel).InitializeAsync();
+            base.OnAppearing();
+        }
     }
 }

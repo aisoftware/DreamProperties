@@ -16,7 +16,7 @@ namespace DreamProperties.Modules.Home
 
         protected override async void OnAppearing()
         {
-            await (BindingContext as HomeViewModel).InitializeAsync(null);
+            await (BindingContext as HomeViewModel).InitializeAsync();
             base.OnAppearing();
         }
     }

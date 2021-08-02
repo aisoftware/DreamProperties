@@ -22,7 +22,7 @@
         public string Address { get; set; }
         public string ListingDescription
         {
-            get => $"{NumberOfBedrooms} BHK for ${Price}" + (ForSale ? "" : " / Month");
+            get => $"{NumberOfBedrooms} BHK for ${Price}" + (ForSale ? "" : "/Month");
         }
     }
 }
