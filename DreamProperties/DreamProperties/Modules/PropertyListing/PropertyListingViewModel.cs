@@ -25,7 +25,7 @@ namespace DreamProperties.Modules.PropertyListing
 
         public async Task InitializeAsync()
         {
-            var properties = await _propertyController.GetAllProperties();
+            var properties = await _propertyController.GetProperties(SearchQuery.Term);
             Properties = new ObservableCollection<PropertyDTO>(properties);
         }
 
@@ -36,9 +36,11 @@ namespace DreamProperties.Modules.PropertyListing
             set
             {
                 _parameter = Uri.UnescapeDataString(value);
-                _parameter = JsonConvert.DeserializeObject<string>(_parameter);
+                SearchQuery = JsonConvert.DeserializeObject<SearchQuery>(_parameter);
             }
         }
+
+        public SearchQuery SearchQuery { get; set; }
 
         public ObservableCollection<PropertyDTO> Properties 
         { 

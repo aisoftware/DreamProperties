@@ -45,6 +45,7 @@
                     <cc:SimpleEntry Grid.Column="0"
                                     Placeholder="Search By City"
                                     PlaceholderColor="{AppThemeBinding Dark={StaticResource DarkPrimaryText}, Light={StaticResource PrimaryText}}"
+                                    Text="{Binding EnteredCity}"
                                     />
                     <ImageButton 
                         Grid.Column="1"
@@ -54,6 +55,7 @@
                         WidthRequest="22"
                         Aspect="AspectFit"
                         Margin="0,0,5,5"
+                        Command="{Binding SearchByCityCommand}"
                         />
                 </Grid>
             </cc:ShadowFrame>

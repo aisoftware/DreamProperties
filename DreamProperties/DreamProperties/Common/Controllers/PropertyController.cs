@@ -1,5 +1,6 @@
 ﻿using DreamProperties.Common.Models;
 using DreamProperties.Common.Network;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ namespace DreamProperties.Common.Controllers
     public interface IPropertyController
     {
         Task<IEnumerable<PropertyDTO>> GetAllProperties();
-        Task<IEnumerable<PropertyDTO>> GetProperties(string city);
+        Task<IEnumerable<PropertyDTO>> GetProperties(SearchQuery searchQuery);
     }
 
     public class PropertyController : IPropertyController
@@ -28,9 +29,20 @@ namespace DreamProperties.Common.Controllers
             return properties;
         }
 
-        public async Task<IEnumerable<PropertyDTO>> GetProperties(string city)
+        public async Task<IEnumerable<PropertyDTO>> GetProperties(SearchQuery searchQuery)
         {
-            var properties = await _networkService.GetAsync<List<PropertyDTO>>(Constants.API_URL + $"property?city={city}");
+            string parameter = string.Empty;
+
+            if (searchQuery.SearchType == SearchType.City)
+            {
+                parameter = $"city={Uri.EscapeDataString(searchQuery.Term)}";
+            }
+            else
+            {
+                parameter = $"type={searchQuery.Term}";
+            }
+
+            var properties = await _networkService.GetAsync<List<PropertyDTO>>(Constants.API_URL + $"property/query?{parameter}");
 
             return properties;
         }
@@ -117,7 +129,7 @@ namespace DreamProperties.Common.Controllers
             return Task.FromResult(popular.AsEnumerable());
         }
 
-        public Task<IEnumerable<PropertyDTO>> GetProperties(string city)
+        public Task<IEnumerable<PropertyDTO>> GetProperties(SearchQuery searchQuery)
         {
             return GetAllProperties();
         }

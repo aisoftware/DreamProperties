@@ -41,6 +41,7 @@ namespace DreamProperties.Modules.Home
         }
 
         public AsyncCommand<string> SearchCommand { get => new AsyncCommand<string>(PerformSearch); }
+        public AsyncCommand SearchByCityCommand { get => new AsyncCommand(SearchByCity); }
 
         public AsyncCommand AddPropertyCommand { get => new AsyncCommand(AddProperty); }
 
@@ -53,6 +54,8 @@ namespace DreamProperties.Modules.Home
             set => SetProperty(ref _popularProperties, value);
         }
 
+        public string EnteredCity { get; set; }
+
         private async Task AddProperty()
         {
             await _navigationService.PushAsync<AddPropertyViewModel>();
@@ -60,7 +63,22 @@ namespace DreamProperties.Modules.Home
 
         private async Task PerformSearch(string propertyType)
         {
-            await _navigationService.PushAsync<PropertyListingViewModel,string>(propertyType);
+            await _navigationService
+                .PushAsync<PropertyListingViewModel,SearchQuery>(new SearchQuery 
+                { 
+                    SearchType = SearchType.PropertyType,
+                    Term = propertyType
+                });
+        }
+
+        private async Task SearchByCity()
+        {
+            await _navigationService
+                .PushAsync<PropertyListingViewModel, SearchQuery>(new SearchQuery
+                {
+                    SearchType = SearchType.City,
+                    Term = EnteredCity
+                });
         }
     }
 }

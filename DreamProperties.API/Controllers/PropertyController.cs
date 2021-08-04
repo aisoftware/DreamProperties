@@ -10,6 +10,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
+using DreamProperties.API.Models;
+using System.Linq.Expressions;
 
 namespace DreamProperties.API.Controllers
 {
@@ -49,17 +51,19 @@ namespace DreamProperties.API.Controllers
             }
         }
 
-        [HttpGet("{city}")]
+        [HttpGet("Query")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Get(string city)
+        public async Task<IActionResult> Get([FromQuery] string city, [FromQuery] string type)
         {
             try
             {
-                var properties = await _databaseContext
-                    .Properties
-                    .Where(x => x.City.ToUpper().Contains(city.ToUpper()))
-                    .ToListAsync();
+                Expression<Func<Property, bool>> predicate = GetFilter(city, type);
+
+                List<Property> properties = await _databaseContext
+                .Properties
+                .Where(predicate)
+                .ToListAsync();
 
                 var result = _mapper.Map<List<PropertyDTO>>(properties);
                 return Ok(result);
@@ -69,6 +73,22 @@ namespace DreamProperties.API.Controllers
                 _logger.LogError(ex, $"Something went wrong in the {nameof(Get)}");
                 return StatusCode(500, "Internal server error. Please try again later.");
             }
+        }
+
+        private Expression<Func<Property, bool>> GetFilter(string city, string type)
+        {
+            if (!string.IsNullOrEmpty(city))
+            {
+                return x => x.City.ToUpper().Contains(city.ToUpper());
+            }
+
+            if (type == "Commercial")
+            {
+                return x => x.PropertyType == PropertyType.Commercial.ToString();
+            }
+
+            bool forSale = type == "Buy";
+            return x => x.ForSale == forSale;
         }
 
         [Authorize]
