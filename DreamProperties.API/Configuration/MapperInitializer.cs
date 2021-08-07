@@ -9,6 +9,7 @@ namespace DreamProperties.API.Configuration
         public MapperInitializer()
         {
             CreateMap<Property, PropertyDTO>().ReverseMap();
+            CreateMap<Property, CreatePropertyDTO>().ReverseMap();
             CreateMap<UserDTO, AppUser>().ReverseMap();
         }
     }

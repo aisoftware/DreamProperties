@@ -21,7 +21,7 @@
                            TextColor="{AppThemeBinding Dark={StaticResource DarkSecondaryText}, Light={StaticResource SecondaryText}}"
                            FontSize="18"
                            FontFamily="AppRegular"/>
-                    <Button Text="Post Property"
+                    <Button Text="Add Property"
                             BackgroundColor="{StaticResource Red}"
                             TextColor="{AppThemeBinding Dark={StaticResource DarkSecondaryText}, Light={StaticResource SecondaryText}}"
                             CornerRadius="7"

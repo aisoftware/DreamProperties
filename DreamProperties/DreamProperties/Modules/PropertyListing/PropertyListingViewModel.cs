@@ -3,6 +3,7 @@ using DreamProperties.Common.Controllers;
 using DreamProperties.Common.Models;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -25,7 +26,16 @@ namespace DreamProperties.Modules.PropertyListing
 
         public async Task InitializeAsync()
         {
-            var properties = await _propertyController.GetProperties(SearchQuery.Term);
+
+            IEnumerable<PropertyDTO> properties = null;
+            if (SearchQuery == null)
+            {
+                properties = await _propertyController.GetAllProperties();
+            }
+            else
+            {
+                properties = await _propertyController.GetProperties(SearchQuery);
+            }
             Properties = new ObservableCollection<PropertyDTO>(properties);
         }
 
