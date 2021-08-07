@@ -54,11 +54,9 @@ namespace DreamProperties.Common.Network
         public async Task<bool> PostAsync(string url, FileResult file)
         {
             HttpContent fileStreamContent = new StreamContent(await file.OpenReadAsync());
-            fileStreamContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data") { Name = "file", FileName = file.FileName };
-            fileStreamContent.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
             using (var formData = new MultipartFormDataContent())
             {
-                formData.Add(fileStreamContent);
+                formData.Add(fileStreamContent, "file", file.FileName);
                 try
                 {
                     var response = await _httpClient.PostAsync(url, formData);
