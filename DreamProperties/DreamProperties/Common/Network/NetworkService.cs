@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -52,12 +53,22 @@ namespace DreamProperties.Common.Network
 
         public async Task<bool> PostAsync(string url, FileResult file)
         {
-
-            var content = new MultipartFormDataContent();
-            content.Add(new StreamContent(await file.OpenReadAsync()), "file", file.FileName);
-
-            HttpResponseMessage response = await _httpClient.PostAsync(url, content);
-            return response.IsSuccessStatusCode;
+            HttpContent fileStreamContent = new StreamContent(await file.OpenReadAsync());
+            fileStreamContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data") { Name = "file", FileName = file.FileName };
+            fileStreamContent.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+            using (var formData = new MultipartFormDataContent())
+            {
+                formData.Add(fileStreamContent);
+                try
+                {
+                    var response = await _httpClient.PostAsync(url, formData);
+                    return response.IsSuccessStatusCode;
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
+            }
         }
     }
 }

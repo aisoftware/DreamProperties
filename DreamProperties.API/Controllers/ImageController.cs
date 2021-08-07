@@ -47,44 +47,44 @@ namespace DreamProperties.API.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Post([FromQuery] int property)
+        public async Task<IActionResult> Post([FromForm(Name = "file")] IFormFile formFile, [FromQuery] int property)
         {
             try
             {
-                string fileName = string.Empty;
-                var httpRequest = HttpContext.Request;
+               // string fileName = string.Empty;
+                //var httpRequest = HttpContext.Request;
 
-                _logger.LogInformation($"number of files: {httpRequest.Form.Files.Count}");
+                //_logger.LogInformation($"number of files: {httpRequest.Form.Files.Count}");
 
-                if (httpRequest.Form.Files.Count > 0)
-                {
-                    foreach (var file in httpRequest.Form.Files)
-                    {
-                        using (var memoryStream = new MemoryStream())
-                        {
-                            fileName = $"{Guid.NewGuid()}_{file.FileName}";
-                            var filePath = Path.Combine(_environment.WebRootPath, fileName);
+                //if (httpRequest.Form.Files.Count > 0)
+                //{
+                //    foreach (var file in httpRequest.Form.Files)
+                //    {
+                //        using (var memoryStream = new MemoryStream())
+                //        {
+                //            fileName = $"{Guid.NewGuid()}_{file.FileName}";
+                //            var filePath = Path.Combine(_environment.WebRootPath, fileName);
 
-                            using (var stream = new FileStream(filePath, FileMode.Create))
-                            {
-                                file.CopyTo(stream);
-                            }
+                //            using (var stream = new FileStream(filePath, FileMode.Create))
+                //            {
+                //                file.CopyTo(stream);
+                //            }
 
-                          //  await file.CopyToAsync(memoryStream);
-                          //  System.IO.File.WriteAllBytes(Path.Combine(filePath, file.FileName), memoryStream.ToArray());
-                        }
-                    }
-                }
+                //          //  await file.CopyToAsync(memoryStream);
+                //          //  System.IO.File.WriteAllBytes(Path.Combine(filePath, file.FileName), memoryStream.ToArray());
+                //        }
+                //    }
+                //}
 
                 var existingProperty = await _databaseContext.Properties.FirstOrDefaultAsync(x => x.Id == property);
                 _logger.LogInformation($"property id: {property}");
-             //   _logger.LogInformation($"form file is null: {formFile == null}");
-             //   _logger.LogInformation($"form file lenght {formFile.Length}");
+                _logger.LogInformation($"form file is null: {formFile == null}");
+                _logger.LogInformation($"form file lenght {formFile.Length}");
                 _logger.LogInformation($"existing property is null: {existingProperty == null}");
                 _logger.LogInformation($"found property {existingProperty.Title}");
                 if (existingProperty == null) { return BadRequest(); }
 
-               // string fileName = UploadImage(formFile);
+                string fileName = UploadImage(formFile);
 
                 _logger.LogInformation("filename", fileName);
 

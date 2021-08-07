@@ -33,9 +33,11 @@ namespace DreamProperties.Modules.AddProperty
             TypeSelection = "House";
         }
 
-        public AddPropertyViewModel(INavigationService navigationService) : this()
+        public AddPropertyViewModel(INavigationService navigationService,
+            INetworkService networkService) : this()
         {
             _navigationService = navigationService;
+            _networkService = networkService;
         }
 
         public Command<string> TypeCommand { get => new Command<string>(SelectType); }
