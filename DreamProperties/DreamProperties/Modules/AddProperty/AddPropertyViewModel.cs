@@ -1,7 +1,13 @@
-﻿using DreamProperties.Common.Base;
+﻿using DreamProperties.Common;
+using DreamProperties.Common.Base;
+using DreamProperties.Common.Controllers;
+using DreamProperties.Common.Models;
+using DreamProperties.Common.Navigation;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
@@ -13,10 +19,24 @@ namespace DreamProperties.Modules.AddProperty
     {
         private string _propertyType = string.Empty;
         private List<string> _amenities = new List<string>();
+        private string _city = string.Empty;
+        private string _imageFileName = string.Empty;
+
+        private FileResult _fileResult = null;
+
+        private readonly IPropertyController _propertyController;
+        private readonly INavigationService _navigationService;
 
         public AddPropertyViewModel()
         {
-            TypeSelection = "House/Villa";
+            TypeSelection = "House";
+        }
+
+        public AddPropertyViewModel(IPropertyController propertyController,
+                                    INavigationService navigationService) : this()
+        {
+            _propertyController = propertyController;
+            _navigationService = navigationService;
         }
 
         public Command<string> TypeCommand { get => new Command<string>(SelectType); }
@@ -26,6 +46,8 @@ namespace DreamProperties.Modules.AddProperty
         public AsyncCommand GetLocationCommand { get => new AsyncCommand(GetLocation); }
 
         public AsyncCommand CreatePropertyCommand { get => new AsyncCommand(CreateProperty); }
+
+        public AsyncCommand ChooseImageCommand { get => new AsyncCommand(ChooseImage); }
 
         private string _address;
         public string Address
@@ -45,16 +67,16 @@ namespace DreamProperties.Modules.AddProperty
             }
         }
 
-        private string _description;
-        public string Description
+        private string _title;
+        public string Title
         {
-            get => _description;
-            set => SetProperty(ref _description, value);
+            get => _title;
+            set => SetProperty(ref _title, value);
         }
 
         private string _selectedAmenities;
         public string SelectedAmenities
-        { 
+        {
             get => _selectedAmenities;
             set => SetProperty(ref _selectedAmenities, $"Selected: {value}");
         }
@@ -73,9 +95,35 @@ namespace DreamProperties.Modules.AddProperty
             set => SetProperty(ref _numberOfBedrooms, value);
         }
 
-        private Task CreateProperty()
+        public int SquareMeters { get; set; }
+
+        private string _selectedImage;
+        public string SelectedImage { get => _selectedImage; set => SetProperty(ref _selectedImage, value); }
+
+        private async Task CreateProperty()
         {
-            return Task.CompletedTask;
+            Enum.TryParse(TypeSelection, out PropertyType propertyType);
+            var createdProperty = new CreatePropertyDTO
+            {
+                Address = Address,
+                Amenities = SelectedAmenities,
+                City = _city,
+                ForSale = true,
+                NumberOfBedrooms = (int)NumberOfBedrooms,
+                Price = (int)Price,
+                PropertyType = propertyType,
+                SquareMeters = SquareMeters,
+                Title = Title
+            };
+
+            var newProperty = await _propertyController.CreateProperty(createdProperty);
+
+            //upload image
+            bool sucess = await _propertyController.UploadImage(_fileResult, newProperty.Id);
+
+            //dialog about sucess
+
+            await _navigationService.GoBackAsync();
         }
 
         private async Task GetLocation()
@@ -95,19 +143,8 @@ namespace DreamProperties.Modules.AddProperty
                 {
                     return;
                 }
+                _city = placemark.Locality;
                 Address = $"{placemark.Locality}, {placemark.SubAdminArea}, {placemark.AdminArea}, {placemark.CountryName}";
-            }
-            catch (FeatureNotSupportedException fnsEx)
-            {
-                // Handle not supported on device exception
-            }
-            catch (FeatureNotEnabledException fneEx)
-            {
-                // Handle not enabled on device exception
-            }
-            catch (PermissionException pEx)
-            {
-                // Handle permission exception
             }
             catch (Exception ex)
             {
@@ -121,7 +158,6 @@ namespace DreamProperties.Modules.AddProperty
             TypeSelection = _propertyType;
         }
 
-
         private void SelectAmenity(string selected)
         {
             if (_amenities.Contains(selected))
@@ -134,6 +170,32 @@ namespace DreamProperties.Modules.AddProperty
             }
 
             SelectedAmenities = String.Join(", ", _amenities);
+        }
+
+        async Task ChooseImage()
+        {
+            try
+            {
+                var photo = await MediaPicker.PickPhotoAsync();
+                if (photo == null)
+                {
+                    return;
+                }
+                // save the file into local storage
+                var newFile = Path.Combine(FileSystem.CacheDirectory, photo.FileName);
+                using (var stream = await photo.OpenReadAsync())
+                using (var newStream = File.OpenWrite(newFile))
+                    await stream.CopyToAsync(newStream);
+
+                _imageFileName = photo.FileName;
+                _fileResult = photo;
+
+                SelectedImage = newFile;
+            }
+            catch (Exception ex)
+            {
+                //unable to get photo
+            }
         }
     }
 }

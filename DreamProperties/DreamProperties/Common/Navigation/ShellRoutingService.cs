@@ -13,6 +13,7 @@ namespace DreamProperties.Common.Navigation
         void GoToLoginFlow();
         Task PushAsync<TViewModel>() where TViewModel : BaseViewModel;
         Task PushAsync<TViewModel,TModel>(TModel model) where TViewModel : BaseViewModel;
+        Task GoBackAsync();
     }
 
     public class ShellRoutingService : INavigationService
@@ -45,6 +46,11 @@ namespace DreamProperties.Common.Navigation
 
             ShellNavigationState state = Shell.Current.CurrentState;
             await Shell.Current.GoToAsync($"{state.Location}/{typeof(TViewModel).Name}?parameter={parameter}");
+        }
+
+        public async Task GoBackAsync()
+        {
+            await Shell.Current.GoToAsync("..");
         }
     }
 }

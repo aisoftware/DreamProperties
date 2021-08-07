@@ -26,5 +26,6 @@ namespace DreamProperties.Common.Models
         [Required]
         [StringLength(400, MinimumLength = 3, ErrorMessage = "Address must contain between 3 and 400 characters.")]
         public string Address { get; set; }
+        public string Amenities { get; set; }
     }
 }

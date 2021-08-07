@@ -34,3 +34,6 @@ using Android.App;
 [assembly: UsesFeature("android.hardware.location", Required = false)]
 [assembly: UsesFeature("android.hardware.location.gps", Required = false)]
 [assembly: UsesFeature("android.hardware.location.network", Required = false)]
+
+// Needed for Picking photo/video
+[assembly: UsesPermission(Android.Manifest.Permission.ReadExternalStorage)]

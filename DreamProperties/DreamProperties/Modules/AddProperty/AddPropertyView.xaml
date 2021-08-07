@@ -11,13 +11,13 @@
                      Orientation="Vertical"
                      VerticalOptions="Start"
                      HorizontalOptions="StartAndExpand">
-                <Label Text="Description"
+                <Label Text="Title"
                        Style="{StaticResource TitleLabel}"
                    />
-                <Entry Placeholder="Enter description, first sentence is the title"
+                <Entry Placeholder="Enter title"
                        FontFamily="AppRegular"
                        FontSize="15"
-                       Text="{Binding Description}"
+                       Text="{Binding Title}"
                        />
 
                 <Label Text="Location"
@@ -62,7 +62,7 @@
                              CornerRadius="10"
                              Margin="5"
                              Command="{Binding TypeCommand}"
-                             CommandParameter="House/Villa"
+                             CommandParameter="House"
                              />
 
                     <ImageButton Grid.Column="1"
@@ -200,7 +200,22 @@
                        Placeholder="Enter the number"
                        FontFamily="AppRegular"
                        FontSize="15"
+                       Text="{Binding SquareMeters}"
                        />
+
+                <Label Text="Select Image"
+                       Style="{StaticResource TitleLabel}"
+                   />
+                <StackLayout Orientation="Horizontal">
+                    <Button Text="Choose..."
+                            Command="{Binding ChooseImageCommand}"/>
+                    <Image WidthRequest="100"
+                           HeightRequest="50"
+                           Source="{Binding SelectedImage}"
+                           Aspect="AspectFill"
+                           />
+                </StackLayout>
+
                 <Button Text="Create"
                         TextColor="{StaticResource SecondaryText}"
                         BackgroundColor="{StaticResource PrimaryBlue}"

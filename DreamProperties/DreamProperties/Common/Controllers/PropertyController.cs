@@ -1,9 +1,13 @@
 ﻿using DreamProperties.Common.Models;
 using DreamProperties.Common.Network;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 
 namespace DreamProperties.Common.Controllers
 {
@@ -11,10 +15,13 @@ namespace DreamProperties.Common.Controllers
     {
         Task<IEnumerable<PropertyDTO>> GetAllProperties();
         Task<IEnumerable<PropertyDTO>> GetProperties(SearchQuery searchQuery);
+        Task<PropertyDTO> CreateProperty(CreatePropertyDTO propertyDTO);
+        Task<bool> UploadImage(FileResult image, int propertyId);
     }
 
     public class PropertyController : IPropertyController
     {
+        private const string PROPERTY_ENDPOINT = "property";
         private INetworkService _networkService;
 
         public PropertyController(INetworkService networkService)
@@ -22,9 +29,16 @@ namespace DreamProperties.Common.Controllers
             _networkService = networkService;
         }
 
+        public async Task<PropertyDTO> CreateProperty(CreatePropertyDTO propertyDTO)
+        {
+            var result = await _networkService.PostAsync<PropertyDTO>(Constants.API_URL + PROPERTY_ENDPOINT,
+                                                             JsonConvert.SerializeObject(propertyDTO));
+            return result;
+        }
+
         public async Task<IEnumerable<PropertyDTO>> GetAllProperties()
         {
-            var properties = await _networkService.GetAsync<List<PropertyDTO>>(Constants.API_URL + "property");
+            var properties = await _networkService.GetAsync<List<PropertyDTO>>(Constants.API_URL + PROPERTY_ENDPOINT);
 
             return properties;
         }
@@ -46,10 +60,28 @@ namespace DreamProperties.Common.Controllers
 
             return properties;
         }
+
+        public async Task<bool> UploadImage(FileResult image, int propertyId)
+        {
+            try
+            {
+                var result = await _networkService.PostAsync($"{Constants.API_URL}image?property={propertyId}", image);
+                return result;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
     }
 
     public class FakePropertyController : IPropertyController
     {
+        public Task<PropertyDTO> CreateProperty(CreatePropertyDTO propertyDTO)
+        {
+            return Task.FromResult(new PropertyDTO());
+        }
+
         public Task<IEnumerable<PropertyDTO>> GetAllProperties()
         {
             var popular = new List<PropertyDTO>
@@ -132,6 +164,11 @@ namespace DreamProperties.Common.Controllers
         public Task<IEnumerable<PropertyDTO>> GetProperties(SearchQuery searchQuery)
         {
             return GetAllProperties();
+        }
+
+        public Task<bool> UploadImage(FileResult image, int propertyId)
+        {
+            return Task.FromResult(true);
         }
     }
 }
