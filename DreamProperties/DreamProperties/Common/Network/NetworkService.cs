@@ -56,15 +56,8 @@ namespace DreamProperties.Common.Network
             var content = new MultipartFormDataContent();
             content.Add(new StreamContent(await file.OpenReadAsync()), "file", file.FileName);
 
-            //HttpContent fileStreamContent = new StreamContent(fileStream);
-            //fileStreamContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data") { Name = "file", FileName = fileName };
-            //fileStreamContent.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
-            //using (var formData = new MultipartFormDataContent())
-            //{
-            //    formData.Add(fileStreamContent);
             HttpResponseMessage response = await _httpClient.PostAsync(url, content);
             return response.IsSuccessStatusCode;
-            //}
         }
     }
 }

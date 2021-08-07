@@ -3,6 +3,8 @@ using DreamProperties.Common.Base;
 using DreamProperties.Common.Controllers;
 using DreamProperties.Common.Models;
 using DreamProperties.Common.Navigation;
+using DreamProperties.Common.Network;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -17,25 +19,22 @@ namespace DreamProperties.Modules.AddProperty
 {
     public class AddPropertyViewModel : BaseViewModel
     {
+        private const string PROPERTY_ENDPOINT = "property";
         private string _propertyType = string.Empty;
         private List<string> _amenities = new List<string>();
         private string _city = string.Empty;
-        private string _imageFileName = string.Empty;
-
         private FileResult _fileResult = null;
 
-        private readonly IPropertyController _propertyController;
         private readonly INavigationService _navigationService;
+        private readonly INetworkService _networkService;
 
         public AddPropertyViewModel()
         {
             TypeSelection = "House";
         }
 
-        public AddPropertyViewModel(IPropertyController propertyController,
-                                    INavigationService navigationService) : this()
+        public AddPropertyViewModel(INavigationService navigationService) : this()
         {
-            _propertyController = propertyController;
             _navigationService = navigationService;
         }
 
@@ -116,10 +115,12 @@ namespace DreamProperties.Modules.AddProperty
                 Title = Title
             };
 
-            var newProperty = await _propertyController.CreateProperty(createdProperty);
+
+            var newProperty = await _networkService.PostAsync<PropertyDTO>(Constants.API_URL + PROPERTY_ENDPOINT,
+                                                             JsonConvert.SerializeObject(createdProperty));
 
             //upload image
-            bool sucess = await _propertyController.UploadImage(_fileResult, newProperty.Id);
+            bool sucess = await _networkService.PostAsync($"{Constants.API_URL}image?property={newProperty.Id}", _fileResult);
 
             //dialog about sucess
 
@@ -187,7 +188,6 @@ namespace DreamProperties.Modules.AddProperty
                 using (var newStream = File.OpenWrite(newFile))
                     await stream.CopyToAsync(newStream);
 
-                _imageFileName = photo.FileName;
                 _fileResult = photo;
 
                 SelectedImage = newFile;

@@ -28,8 +28,6 @@ namespace DreamProperties
                    .AsImplementedInterfaces()
                    .AsSelf();
 
-            builder.RegisterType<PropertyController>().As<IPropertyController>();
-
             //get container
             Container = builder.Build();
 

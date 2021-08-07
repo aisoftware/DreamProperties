@@ -1,6 +1,8 @@
-﻿using DreamProperties.Common.Base;
+﻿using DreamProperties.Common;
+using DreamProperties.Common.Base;
 using DreamProperties.Common.Controllers;
 using DreamProperties.Common.Models;
+using DreamProperties.Common.Network;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -13,14 +15,14 @@ namespace DreamProperties.Modules.PropertyListing
     [QueryProperty("Parameter", "parameter")]
     public class PropertyListingViewModel : BaseViewModel
     {
-
-        private IPropertyController _propertyController;
+        private const string PROPERTY_ENDPOINT = "property";
+        private readonly INetworkService _networkService;
 
         private ObservableCollection<PropertyDTO> _properties;
 
-        public PropertyListingViewModel(IPropertyController propertyController)
+        public PropertyListingViewModel(INetworkService networkService)
         {
-            _propertyController = propertyController;
+            _networkService = networkService;
             _properties = new ObservableCollection<PropertyDTO>();
         }
 
@@ -30,11 +32,22 @@ namespace DreamProperties.Modules.PropertyListing
             IEnumerable<PropertyDTO> properties = null;
             if (SearchQuery == null)
             {
-                properties = await _propertyController.GetAllProperties();
+                properties = await _networkService.GetAsync<List<PropertyDTO>>(Constants.API_URL + PROPERTY_ENDPOINT);
             }
             else
             {
-                properties = await _propertyController.GetProperties(SearchQuery);
+                string parameter = string.Empty;
+
+                if (SearchQuery.SearchType == SearchType.City)
+                {
+                    parameter = $"city={Uri.EscapeDataString(SearchQuery.Term)}";
+                }
+                else
+                {
+                    parameter = $"type={SearchQuery.Term}";
+                }
+
+                properties = await _networkService.GetAsync<List<PropertyDTO>>(Constants.API_URL + $"property/query?{parameter}");
             }
             Properties = new ObservableCollection<PropertyDTO>(properties);
         }
