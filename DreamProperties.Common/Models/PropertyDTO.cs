@@ -20,6 +20,8 @@
         public string Title { get; set; }
         public float SquareMeters { get; set; }
         public string Address { get; set; }
+        public string OwnersEmail { get; set; }
+        //Add later
         public string Amenities { get; set; }
         public string ListingDescription
         {

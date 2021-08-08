@@ -103,18 +103,20 @@ namespace DreamProperties.Modules.AddProperty
 
         private async Task CreateProperty()
         {
+            string ownersEmail = await SecureStorage.GetAsync("email");
             Enum.TryParse(TypeSelection, out PropertyType propertyType);
             var createdProperty = new CreatePropertyDTO
             {
                 Address = Address,
-                Amenities = SelectedAmenities,
+                Amenities = SelectedAmenities.Replace("Selected: ",""),
                 City = _city,
                 ForSale = true,
                 NumberOfBedrooms = (int)NumberOfBedrooms,
                 Price = (int)Price,
                 PropertyType = propertyType,
                 SquareMeters = SquareMeters,
-                Title = Title
+                Title = Title,
+                OwnersEmail = ownersEmail
             };
 
 
