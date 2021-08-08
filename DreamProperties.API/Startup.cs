@@ -96,7 +96,10 @@ namespace DreamProperties.API
 
             services.AddAutoMapper(typeof(MapperInitializer));
 
+            services.AddTransient<IMailService, MailService>();
             services.AddScoped<IAuthService, AuthService>();
+
+            services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
 
             services.AddControllers();
         }
