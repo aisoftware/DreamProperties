@@ -5,6 +5,10 @@ using DreamProperties.Common.Navigation;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
 using System.Web;
+using DreamProperties.Common.Network;
+using DreamProperties.Common.Models;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace DreamProperties.Modules.Login
 {
@@ -13,10 +17,13 @@ namespace DreamProperties.Modules.Login
         private const string AUTHENTICATION_URL = "https://dreamproperties.azurewebsites.net/api/auth/";
 
         private readonly INavigationService _navigationService;
+        private readonly INetworkService _networkService;
 
-        public LoginViewModel(INavigationService navigationService)
+        public LoginViewModel(INavigationService navigationService,
+                              INetworkService networkService)
         {
             _navigationService = navigationService;
+            _networkService = networkService;
         }
 
         public AsyncCommand FacebookAuthCommand { get => new AsyncCommand(FacebookAuthenticate); }
@@ -35,8 +42,6 @@ namespace DreamProperties.Modules.Login
 
         private async Task AppleAuthenticate()
         {
-            //simpler way
-            
             // Use Native Apple Sign In API's
             var options = new AppleSignInAuthenticator.Options
             {
@@ -51,7 +56,19 @@ namespace DreamProperties.Modules.Login
             if (authResult.Properties.TryGetValue("email", out var email) && !string.IsNullOrEmpty(email))
                 AuthToken += $"Email: {email}{Environment.NewLine}";
             AuthToken += authResult?.AccessToken ?? authResult?.IdToken;
-            
+
+            var createdUser = new UserDTO
+            {
+                Email = email,
+                FirstName = name,
+                LastName = name
+            };
+
+            var callbackValues = await _networkService
+                .PostAsync<Dictionary<string,string>>(AUTHENTICATION_URL + "register", JsonConvert.SerializeObject(createdUser));
+
+            await SaveUserData(callbackValues["access_token"], name, email);
+
             _navigationService.GoToMainFlow();
         }
 
@@ -70,19 +87,23 @@ namespace DreamProperties.Modules.Login
                 string name = $"{result.Properties["firstName"]} {result.Properties["lastName"]}";
                 string email = HttpUtility.UrlDecode(result.Properties["email"]);
 
-                await SecureStorage.SetAsync("token", authToken);
-                await SecureStorage.SetAsync("name", name);
-                await SecureStorage.SetAsync("email", email);
+                await SaveUserData(authToken, name, email);
 
-                Preferences.Set("logged", true);
-
-                //TODO navigate to home view
                 _navigationService.GoToMainFlow();
             }
             catch (TaskCanceledException)
             {
-                //User canceled auth flow;
+                //User canceled auth flow
             }
+        }
+
+        private static async Task SaveUserData(string authToken, string name, string email)
+        {
+            await SecureStorage.SetAsync("token", authToken);
+            await SecureStorage.SetAsync("name", name);
+            await SecureStorage.SetAsync("email", email);
+
+            Preferences.Set("logged", true);
         }
     }
 }
