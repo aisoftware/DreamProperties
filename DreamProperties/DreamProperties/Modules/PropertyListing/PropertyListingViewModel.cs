@@ -8,7 +8,10 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
+using Xamarin.Essentials;
+using DreamProperties.Common.Dialog;
 
 namespace DreamProperties.Modules.PropertyListing
 {
@@ -17,12 +20,15 @@ namespace DreamProperties.Modules.PropertyListing
     {
         private const string PROPERTY_ENDPOINT = "property";
         private readonly INetworkService _networkService;
+        private readonly IDialogMessage _dialogMessage;
 
         private ObservableCollection<PropertyDTO> _properties;
 
-        public PropertyListingViewModel(INetworkService networkService)
+        public PropertyListingViewModel(INetworkService networkService,
+                                        IDialogMessage dialogMessage)
         {
             _networkService = networkService;
+            _dialogMessage = dialogMessage;
             _properties = new ObservableCollection<PropertyDTO>();
         }
 
@@ -71,6 +77,46 @@ namespace DreamProperties.Modules.PropertyListing
             set
             {
                 SetProperty(ref _properties, value);
+            }
+        }
+
+        public AsyncCommand<int> LikeCommand { get => new AsyncCommand<int>(LikeProperty, () => IsNotBusy); }
+
+        public AsyncCommand<PropertyDTO> ContactCommand { get => new AsyncCommand<PropertyDTO>(ContactPropertyOwner, () => IsNotBusy); }
+
+        private async Task ContactPropertyOwner(PropertyDTO propertyDTO)
+        {
+            try
+            {
+                IsBusy = true;
+                var mail = new MailDTO
+                {
+                    FromEmail = await SecureStorage.GetAsync("email"),
+                    ToEmail = propertyDTO.OwnersEmail,
+                    PropertyId = propertyDTO.Id,
+                    PropertyTitle = propertyDTO.Title
+                };
+
+                await _networkService.PostAsync($"{Constants.API_URL}email/send", JsonConvert.SerializeObject(mail));
+                await _dialogMessage.DisplayOkAlert("Success", "The email has been sent to the owner of this property.");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        private async Task LikeProperty(int propertyId)
+        {
+            try
+            {
+                IsBusy = true;
+                await _networkService.PutAsync($"{Constants.API_URL}like/{propertyId}");
+                await _dialogMessage.DisplayOkAlert("Success", "You have liked this property.");
+            }
+            finally
+            {
+                IsBusy = false;
             }
         }
     }

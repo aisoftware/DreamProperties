@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              Title="Properties"
+             x:Name="listingPage"
              x:Class="DreamProperties.Modules.PropertyListing.PropertyListingView">
     <ContentPage.Content>
         <CollectionView ItemsSource="{Binding Properties}"
@@ -52,12 +53,16 @@
                                     BackgroundColor="{StaticResource BluePrice}"
                                     CornerRadius="10"
                                     Margin="10"
+                                    Command="{Binding Path=BindingContext.LikeCommand, Source={x:Reference listingPage}}"
+                                    CommandParameter="{Binding Id}"
                                     />
                             <Button Grid.Column="1" Text="Contact"
                                     TextColor="White"
                                     BackgroundColor="{StaticResource Green}"
                                     CornerRadius="10"
                                     Margin="10"
+                                    Command="{Binding Path=BindingContext.ContactCommand, Source={x:Reference listingPage}}"
+                                    CommandParameter="{Binding}"
                                     />
                         </Grid>
                     </StackLayout>

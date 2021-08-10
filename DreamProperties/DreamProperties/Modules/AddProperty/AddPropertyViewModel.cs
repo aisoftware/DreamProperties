@@ -1,6 +1,6 @@
 ﻿using DreamProperties.Common;
 using DreamProperties.Common.Base;
-using DreamProperties.Common.Controllers;
+using DreamProperties.Common.Dialog;
 using DreamProperties.Common.Models;
 using DreamProperties.Common.Navigation;
 using DreamProperties.Common.Network;
@@ -9,7 +9,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
@@ -27,6 +26,7 @@ namespace DreamProperties.Modules.AddProperty
 
         private readonly INavigationService _navigationService;
         private readonly INetworkService _networkService;
+        private readonly IDialogMessage _dialogMessage;
 
         public AddPropertyViewModel()
         {
@@ -34,10 +34,12 @@ namespace DreamProperties.Modules.AddProperty
         }
 
         public AddPropertyViewModel(INavigationService navigationService,
-            INetworkService networkService) : this()
+                                    INetworkService networkService,
+                                    IDialogMessage dialogMessage) : this()
         {
             _navigationService = navigationService;
             _networkService = networkService;
+            _dialogMessage = dialogMessage;
         }
 
         public Command<string> TypeCommand { get => new Command<string>(SelectType); }
@@ -46,7 +48,7 @@ namespace DreamProperties.Modules.AddProperty
 
         public AsyncCommand GetLocationCommand { get => new AsyncCommand(GetLocation); }
 
-        public AsyncCommand CreatePropertyCommand { get => new AsyncCommand(CreateProperty); }
+        public AsyncCommand CreatePropertyCommand { get => new AsyncCommand(CreateProperty, () => IsNotBusy); }
 
         public AsyncCommand ChooseImageCommand { get => new AsyncCommand(ChooseImage); }
 
@@ -103,32 +105,48 @@ namespace DreamProperties.Modules.AddProperty
 
         private async Task CreateProperty()
         {
-            string ownersEmail = await SecureStorage.GetAsync("email");
-            Enum.TryParse(TypeSelection, out PropertyType propertyType);
-            var createdProperty = new CreatePropertyDTO
+            try
             {
-                Address = Address,
-                Amenities = SelectedAmenities.Replace("Selected: ",""),
-                City = _city,
-                ForSale = true,
-                NumberOfBedrooms = (int)NumberOfBedrooms,
-                Price = (int)Price,
-                PropertyType = propertyType,
-                SquareMeters = SquareMeters,
-                Title = Title,
-                OwnersEmail = ownersEmail
-            };
+                IsBusy = true;
+                if (_fileResult == null)
+                {
+                    await _dialogMessage.DisplayOkAlert("Error", "Please upload a property image.");
+                    return;
+                }
 
+                string ownersEmail = await SecureStorage.GetAsync("email");
+                Enum.TryParse(TypeSelection?.Replace("Selected: ", ""), out PropertyType propertyType);
+                var createdProperty = new CreatePropertyDTO
+                {
+                    Address = Address,
+                    Amenities = SelectedAmenities?.Replace("Selected: ", ""),
+                    City = _city,
+                    ForSale = true,
+                    NumberOfBedrooms = (int)NumberOfBedrooms,
+                    Price = (int)Price,
+                    PropertyType = propertyType,
+                    SquareMeters = SquareMeters,
+                    Title = Title,
+                    OwnersEmail = ownersEmail
+                };
 
-            var newProperty = await _networkService.PostAsync<PropertyDTO>(Constants.API_URL + PROPERTY_ENDPOINT,
-                                                             JsonConvert.SerializeObject(createdProperty));
+                var newProperty = await _networkService.PostAsync<PropertyDTO>(Constants.API_URL + PROPERTY_ENDPOINT,
+                                                                 JsonConvert.SerializeObject(createdProperty));
 
-            //upload image
-            bool sucess = await _networkService.PostAsync($"{Constants.API_URL}image?property={newProperty.Id}", _fileResult);
+                if (newProperty.Id == 0)
+                {
+                    await _dialogMessage.DisplayOkAlert("Error", "Please check all fields and try again.");
+                    return;
+                }
 
-            //dialog about sucess
-
-            await _navigationService.GoBackAsync();
+                await _networkService.PostAsync($"{Constants.API_URL}image?property={newProperty.Id}", _fileResult);
+                await _dialogMessage.DisplayOkAlert("Success", "You have created a new property!");
+                await _navigationService.GoBackAsync();
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         private async Task GetLocation()
@@ -196,7 +214,7 @@ namespace DreamProperties.Modules.AddProperty
 
                 SelectedImage = newFile;
             }
-            catch (Exception ex)
+            catch
             {
                 //unable to get photo
             }
