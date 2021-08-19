@@ -1,12 +1,9 @@
-﻿using DreamProperties.Common;
-using DreamProperties.Common.Base;
+﻿using DreamProperties.Common.Base;
 using DreamProperties.Common.Controllers;
 using DreamProperties.Common.Models;
 using DreamProperties.Common.Navigation;
-using DreamProperties.Common.Network;
 using DreamProperties.Modules.AddProperty;
 using DreamProperties.Modules.PropertyListing;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,15 +13,14 @@ namespace DreamProperties.Modules.Home
 {
     public class HomeViewModel: BaseViewModel
     {
-        private const string PROPERTY_ENDPOINT = "property";
         private readonly INavigationService _navigationService;
-        private readonly INetworkService _networkService;
+        private readonly IPropertyController _propertyController;
 
         public HomeViewModel(INavigationService navigationService,
-                             INetworkService networkService)
+                             IPropertyController propertyController)
         {
             _navigationService = navigationService;
-            _networkService = networkService;
+            _propertyController = propertyController;
             _popularProperties = new ObservableCollection<PropertyDTO>();
         }
 
@@ -33,7 +29,7 @@ namespace DreamProperties.Modules.Home
             try
             {
                 IsBusy = true;
-                var favorites = (await _networkService.GetAsync<List<PropertyDTO>>(Constants.API_URL + PROPERTY_ENDPOINT))
+                var favorites = (await _propertyController.GetAllProperties())
                     .OrderByDescending(x => x.NumberOfLikes)
                     .Take(5);
                 PopularProperties = new ObservableCollection<PropertyDTO>(favorites);

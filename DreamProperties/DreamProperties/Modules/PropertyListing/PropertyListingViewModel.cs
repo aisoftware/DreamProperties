@@ -18,15 +18,17 @@ namespace DreamProperties.Modules.PropertyListing
     [QueryProperty("Parameter", "parameter")]
     public class PropertyListingViewModel : BaseViewModel
     {
-        private const string PROPERTY_ENDPOINT = "property";
-        private readonly INetworkService _networkService;
         private readonly IDialogMessage _dialogMessage;
+        private readonly IPropertyController _propertyController;
+        private readonly INetworkService _networkService;
 
         private ObservableCollection<PropertyDTO> _properties;
 
-        public PropertyListingViewModel(INetworkService networkService,
+        public PropertyListingViewModel(IPropertyController propertyController,
+                                        INetworkService networkService,
                                         IDialogMessage dialogMessage)
         {
+            _propertyController = propertyController;
             _networkService = networkService;
             _dialogMessage = dialogMessage;
             _properties = new ObservableCollection<PropertyDTO>();
@@ -34,26 +36,14 @@ namespace DreamProperties.Modules.PropertyListing
 
         public async Task InitializeAsync()
         {
-
             IEnumerable<PropertyDTO> properties = null;
             if (SearchQuery == null)
             {
-                properties = await _networkService.GetAsync<List<PropertyDTO>>(Constants.API_URL + PROPERTY_ENDPOINT);
+                properties = await _propertyController.GetAllProperties();
             }
             else
             {
-                string parameter = string.Empty;
-
-                if (SearchQuery.SearchType == SearchType.City)
-                {
-                    parameter = $"city={Uri.EscapeDataString(SearchQuery.Term)}";
-                }
-                else
-                {
-                    parameter = $"type={SearchQuery.Term}";
-                }
-
-                properties = await _networkService.GetAsync<List<PropertyDTO>>(Constants.API_URL + $"property/query?{parameter}");
+                properties = await _propertyController.GetProperties(SearchQuery);
             }
             Properties = new ObservableCollection<PropertyDTO>(properties);
         }
@@ -74,10 +64,7 @@ namespace DreamProperties.Modules.PropertyListing
         public ObservableCollection<PropertyDTO> Properties 
         { 
             get => _properties;
-            set
-            {
-                SetProperty(ref _properties, value);
-            }
+            set => SetProperty(ref _properties, value);
         }
 
         public AsyncCommand<int> LikeCommand { get => new AsyncCommand<int>(LikeProperty, () => IsNotBusy); }

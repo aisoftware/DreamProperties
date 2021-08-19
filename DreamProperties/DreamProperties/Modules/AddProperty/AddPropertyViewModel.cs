@@ -1,5 +1,6 @@
 ﻿using DreamProperties.Common;
 using DreamProperties.Common.Base;
+using DreamProperties.Common.Controllers;
 using DreamProperties.Common.Dialog;
 using DreamProperties.Common.Models;
 using DreamProperties.Common.Navigation;
@@ -18,14 +19,13 @@ namespace DreamProperties.Modules.AddProperty
 {
     public class AddPropertyViewModel : BaseViewModel
     {
-        private const string PROPERTY_ENDPOINT = "property";
         private string _propertyType = string.Empty;
         private List<string> _amenities = new List<string>();
         private string _city = string.Empty;
         private FileResult _fileResult = null;
 
         private readonly INavigationService _navigationService;
-        private readonly INetworkService _networkService;
+        private readonly IPropertyController _propertyController;
         private readonly IDialogMessage _dialogMessage;
 
         public AddPropertyViewModel()
@@ -34,11 +34,11 @@ namespace DreamProperties.Modules.AddProperty
         }
 
         public AddPropertyViewModel(INavigationService navigationService,
-                                    INetworkService networkService,
+                                    IPropertyController propertyController,
                                     IDialogMessage dialogMessage) : this()
         {
             _navigationService = navigationService;
-            _networkService = networkService;
+            _propertyController = propertyController;
             _dialogMessage = dialogMessage;
         }
 
@@ -130,8 +130,7 @@ namespace DreamProperties.Modules.AddProperty
                     OwnersEmail = ownersEmail
                 };
 
-                var newProperty = await _networkService.PostAsync<PropertyDTO>(Constants.API_URL + PROPERTY_ENDPOINT,
-                                                                 JsonConvert.SerializeObject(createdProperty));
+                var newProperty = await _propertyController.CreateProperty(createdProperty);
 
                 if (newProperty.Id == 0)
                 {
@@ -139,7 +138,7 @@ namespace DreamProperties.Modules.AddProperty
                     return;
                 }
 
-                await _networkService.PostAsync($"{Constants.API_URL}image?property={newProperty.Id}", _fileResult);
+                bool sucess = await _propertyController.UploadImage(_fileResult, newProperty.Id);
                 await _dialogMessage.DisplayOkAlert("Success", "You have created a new property!");
                 await _navigationService.GoBackAsync();
             }
