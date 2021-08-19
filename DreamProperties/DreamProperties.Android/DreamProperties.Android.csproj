@@ -86,9 +86,6 @@
     <AndroidResource Include="Resources\mipmap-xxxhdpi\launcher_foreground.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\favorites.png" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\DreamProperties\DreamProperties.csproj">
       <Project>{205E7CE0-293C-4A43-AEA5-D2FD036791C0}</Project>
       <Name>DreamProperties</Name>
@@ -162,6 +159,9 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\luxury_villa.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\listing.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>
