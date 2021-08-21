@@ -23,17 +23,14 @@ namespace DreamProperties.API.Controllers
         private readonly DatabaseContext _databaseContext;
         private readonly ILogger<PropertyController> _logger;
         private readonly IMapper _mapper;
-        private readonly IWebHostEnvironment _environment;
 
         public PropertyController(DatabaseContext databaseContext,
                                   ILogger<PropertyController> logger,
-                                  IMapper mapper,
-                                  IWebHostEnvironment environment)
+                                  IMapper mapper)
         {
             _databaseContext = databaseContext;
             _logger = logger;
             _mapper = mapper;
-            _environment = environment;
         }
 
         [HttpGet]
