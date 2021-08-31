@@ -118,6 +118,9 @@ namespace DreamProperties.API.Migrations
                     b.Property<int>("NumberOfLikes")
                         .HasColumnType("int");
 
+                    b.Property<string>("OwnersEmail")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Price")
                         .HasColumnType("int");
 

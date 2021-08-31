@@ -1,8 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.IO;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
@@ -14,6 +12,8 @@ namespace DreamProperties.Common.Network
         Task<TResult> GetAsync<TResult>(string url);
         Task<TResult> PostAsync<TResult>(string url, string jsonData);
         Task<bool> PostAsync(string url, FileResult file);
+        Task<bool> PostAsync(string url, string jsonData);
+        Task PutAsync(string url);
     }
 
     public class NetworkService : INetworkService
@@ -51,22 +51,28 @@ namespace DreamProperties.Common.Network
             return result;
         }
 
+        public async Task<bool> PostAsync(string url, string jsonData)
+        {
+            var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+
+            HttpResponseMessage response = await _httpClient.PostAsync(url, content);
+            return response.IsSuccessStatusCode;
+        }
+
         public async Task<bool> PostAsync(string url, FileResult file)
         {
             HttpContent fileStreamContent = new StreamContent(await file.OpenReadAsync());
             using (var formData = new MultipartFormDataContent())
             {
                 formData.Add(fileStreamContent, "file", file.FileName);
-                try
-                {
-                    var response = await _httpClient.PostAsync(url, formData);
-                    return response.IsSuccessStatusCode;
-                }
-                catch (Exception e)
-                {
-                    return false;
-                }
+                var response = await _httpClient.PostAsync(url, formData);
+                return response.IsSuccessStatusCode;
             }
+        }
+
+        public async Task PutAsync(string url)
+        {
+            HttpResponseMessage response = await _httpClient.PutAsync(url, null);
         }
     }
 }
