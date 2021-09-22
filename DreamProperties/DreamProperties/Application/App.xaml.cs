@@ -33,14 +33,7 @@ namespace DreamProperties
             //get container
             Container = builder.Build();
 
-            if (Preferences.Get("logged", false))
-            {
                 MainPage = new AppShell();
-            }
-            else
-            {
-                MainPage = new LoginView();
-            }
         }
     }
 }

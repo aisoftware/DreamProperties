@@ -168,12 +168,6 @@
     <ImageAsset Include="Assets.xcassets\internet.png.imageset\Contents.json">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\listing.png.imageset\listing.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\listing.png.imageset\listing@2x.png">
-      <Visible>false</Visible>
-    </ImageAsset>
     <ImageAsset Include="Assets.xcassets\listing.png.imageset\listing@3x.png">
       <Visible>false</Visible>
     </ImageAsset>
@@ -400,6 +394,8 @@
     <ImageAsset Include="Assets.xcassets\propertyWide.png.imageset\propertyWide.png">
       <Visible>false</Visible>
     </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\listing.png.imageset\listing.png" />
+    <ImageAsset Include="Assets.xcassets\listing.png.imageset\listing%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
