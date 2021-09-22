@@ -21,3 +21,7 @@ Dream Properties is available as an iOS and Android application.
 ### Login using Google and Facebook
 
 ![Login using Google and Facebook](/social_login.gif)
+
+### App walkthrough and the dark mode
+
+![App walkthrough and the dark mode](/app_walkthrough.gif)
