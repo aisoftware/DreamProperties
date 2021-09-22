@@ -17,3 +17,7 @@ Dream Properties is available as an iOS and Android application.
 - **Filter properties** based on location and property type
 - **Add new properties** - create new property and upload property image
 - **Send email** through the app to the property owner
+
+### Login using Google and Facebook
+
+![Login using Google and Facebook](/social_login.gif)
